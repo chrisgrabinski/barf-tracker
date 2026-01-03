@@ -1,0 +1,75 @@
+import { Canvas, Controls, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ButtonStories from "./button.stories";
+
+<Meta of={ButtonStories} />
+
+# Button
+
+An interactive element which performs an action on click.
+
+## Example
+
+<Canvas />
+
+## API reference
+
+<Controls />
+
+## Usage
+
+### Default
+
+```tsx
+import { Button, type ButtonProps } from "@remote-com/norma/primitives/button";
+
+interface MyCustomButtonProps extends ButtonProps {
+  completed?: boolean;
+}
+
+const MyCustomButton = ({ children, completed, ...props }: Button) => {
+  return (
+    <Button {...props}>
+      {children}
+      {completed ? "✔︎" : ""}
+    </Button>
+  );
+};
+```
+
+### As child components
+
+In some cases, you might want to use the provided logic of the button primitive but render a different element. To achieve this, you can use the `asChild` prop.
+
+```tsx
+import { Button, type ButtonProps } from "@remote-com/norma/primitives/button";
+import Link, { type LinkProps } from "next/link";
+import { type ComponentProps } from "react";
+
+interface MyLinkButtonProps
+  extends Pick<ButtonProps, "children", "disabled" | "loading">,
+    LinkProps {}
+
+const MyLinkButton = ({
+  children,
+  disabled,
+  loading,
+  ...linkProps
+}: MyLinkButtonProps) => {
+  return (
+    <Button asChild disabled={disabled} loading={loading}>
+      <Link {...linkProps}>{children}</Link>
+    </Button>
+  );
+};
+```
+
+## Considerations
+
+### Disabled state
+
+By default, buttons cannot receive focus when disabled, making them undiscoverable for some users (i.e. when using a screen reader or navigating the page with a keyboard). To make the full context available to everyone, we have decided to indicate non-interactivity via the `aria-disabled` prop. To make sure buttons remain non-interactive, we are preventing the `onClick` handler from being fired when disabled.
+
+### Loading state
+
+To make working with loading states easier, the button primitive accepts a `loading` prop. When set, we add an `aria-busy` attribute to the button and prevent the `onClick` handler from being fired.
