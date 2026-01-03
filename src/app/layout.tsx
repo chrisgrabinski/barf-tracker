@@ -20,14 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html className={geist.className} lang="en">
-      <body className="grid min-h-dvh gap-6 bg-neutral-900 text-neutral-50">
-        <header className="container mx-auto flex items-center gap-3 p-6">
+      <body className="grid min-h-dvh gap-6 bg-black p-3 text-neutral-50">
+        <header className="container mx-auto flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <Image alt="" height={24} src={grinningCatEmoji} width={24} />
             <h1 className="font-medium text-lg">Barf Tracker</h1>
           </div>
         </header>
-        <main className="container mx-auto grid gap-6 px-6">{children}</main>
+        <main className="container mx-auto grid gap-6">{children}</main>
       </body>
     </html>
   );

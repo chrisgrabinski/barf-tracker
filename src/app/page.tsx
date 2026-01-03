@@ -121,31 +121,34 @@ export default function RootPage() {
           Barf!
         </Button>
       </div>
-      <section>
+      <section className="rounded-lg border border-neutral-800 bg-neutral-950 p-6">
         <BarfChart timestamps={timestamps} />
       </section>
-      <section className="grid gap-6">
-        <h2 className="font-semibold text-2xl">Barf list</h2>
-        {entries.length === 0 ? (
+      <section className="rounded-lg border border-neutral-800 bg-neutral-950 p-6">
+        <h2 className="font-semibold text-xl">Barf list</h2>
+        {entries.length === 0 && (
           <p className="text-neutral-500">No barf entries yet</p>
-        ) : (
-          entries.map((entry) => (
-            <div
-              className="flex items-center justify-between gap-3"
-              key={entry.id}
-            >
-              {format(
-                new Date(entry.created_at),
-                "EEEE, MMMM d yyyy 'at' HH:mm",
-              )}
-              <Button
-                className="grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
-                onClick={() => handleDelete(entry.id)}
+        )}
+        {entries.length > 0 && (
+          <ul className="divide-y divide-neutral-800">
+            {entries.map((entry) => (
+              <li
+                className="flex items-center justify-between gap-3 py-3"
+                key={entry.id}
               >
-                <TrashIcon className="size-4" />
-              </Button>
-            </div>
-          ))
+                {format(
+                  new Date(entry.created_at),
+                  "EEEE, MMMM d yyyy 'at' HH:mm",
+                )}
+                <Button
+                  className="grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
+                  onClick={() => handleDelete(entry.id)}
+                >
+                  <TrashIcon className="size-4" />
+                </Button>
+              </li>
+            ))}
+          </ul>
         )}
       </section>
     </div>
