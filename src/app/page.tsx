@@ -121,7 +121,7 @@ export default function RootPage() {
       <Card>
         <form className="grid gap-3" onSubmit={handleSubmit}>
           <label className="grid gap-1.5">
-            <span>Last food foodTypeError</span>
+            <span>Last food type</span>
             <select
               className="block bg-neutral-800 p-[1.5ch]"
               defaultValue={entries[0]?.food_type || undefined}
