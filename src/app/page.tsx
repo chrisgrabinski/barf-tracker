@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import vomitingFaceEmoji from "@/app/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/app/nauseated-face_1f922.gif";
+import { Card } from "@/components/card";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
 import { Button } from "@/primitives/button";
@@ -40,11 +41,31 @@ export default function RootPage() {
     fetchEntries();
   }, [fetchEntries]);
 
-  const handleAdd = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const foodType = formData.get("food_type") as string;
+
     try {
+      // Add food type to database (upsert to avoid duplicates)
+      if (foodType) {
+        const { error: foodTypeError } = await supabase
+          .from("food_types")
+          .upsert(
+            { name: foodType },
+            { ignoreDuplicates: false, onConflict: "name" },
+          );
+
+        if (foodTypeError) {
+          // If food_types table doesn't exist, continue anyway
+          console.warn("Could not upsert food type:", foodTypeError);
+        }
+      }
+
+      // Create new entry with food_type
       const { data, error: insertError } = await supabase
         .from("data")
-        .insert([{}])
+        .insert([{ food_type: foodType || null }])
         .select()
         .single();
 
@@ -91,40 +112,53 @@ export default function RootPage() {
   }
 
   return (
-    <div className="grid gap-12">
+    <div className="grid gap-6">
       {error && (
         <div className="rounded-lg border border-red-500 bg-red-950/20 p-4 text-red-400">
           Error: {error}
         </div>
       )}
-      <div className="grid place-items-center">
-        <Button
-          className="group flex cursor-pointer items-center gap-[0.75ch] rounded-lg bg-lime-900 p-[1.5ch] font-medium text-4xl text-lime-50 transition hover:bg-lime-800"
-          onClick={handleAdd}
-        >
-          <div className="grid size-[1lh] place-items-center">
-            <Image
-              alt=""
-              className="col-start-1 row-start-1 size-full transition-opacity group-hover:opacity-0"
-              height={64}
-              src={nauseatedFaceEmoji}
-              width={64}
-            />
-            <Image
-              alt=""
-              className="col-start-1 row-start-1 size-full opacity-0 transition-opacity group-hover:opacity-100"
-              height={64}
-              src={vomitingFaceEmoji}
-              width={64}
-            />
-          </div>
-          Barf!
-        </Button>
-      </div>
-      <section className="rounded-lg border border-neutral-800 bg-neutral-950 p-6">
+      <Card>
+        <form className="grid gap-3" onSubmit={handleSubmit}>
+          <label className="grid gap-1.5">
+            <span>Last food foodTypeError</span>
+            <select
+              className="block bg-neutral-800 p-[1.5ch]"
+              defaultValue={entries[0]?.food_type || undefined}
+              name="food_type"
+            >
+              <option value="dry">Dry food</option>
+              <option value="wet">Wet food</option>
+            </select>
+          </label>
+          <Button
+            className="group flex w-full cursor-pointer items-center justify-center gap-[0.75ch] rounded-lg bg-lime-900 p-[1.5ch] font-medium text-lime-50 text-xl transition hover:bg-lime-800"
+            type="submit"
+          >
+            <div className="grid size-[1lh] place-items-center">
+              <Image
+                alt=""
+                className="col-start-1 row-start-1 size-full transition-opacity group-hover:opacity-0"
+                height={64}
+                src={nauseatedFaceEmoji}
+                width={64}
+              />
+              <Image
+                alt=""
+                className="col-start-1 row-start-1 size-full opacity-0 transition-opacity group-hover:opacity-100"
+                height={64}
+                src={vomitingFaceEmoji}
+                width={64}
+              />
+            </div>
+            Barf!
+          </Button>
+        </form>
+      </Card>
+      <Card>
         <BarfChart timestamps={timestamps} />
-      </section>
-      <section className="rounded-lg border border-neutral-800 bg-neutral-950 p-6">
+      </Card>
+      <Card>
         <h2 className="font-semibold text-xl">Barf list</h2>
         {entries.length === 0 && (
           <p className="text-neutral-500">No barf entries yet</p>
@@ -150,7 +184,7 @@ export default function RootPage() {
             ))}
           </ul>
         )}
-      </section>
+      </Card>
     </div>
   );
 }

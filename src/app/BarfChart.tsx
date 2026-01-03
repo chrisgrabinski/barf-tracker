@@ -1,25 +1,15 @@
 "use client";
 
-import { AreaChartIcon, BarChartIcon } from "lucide-react";
-import type React from "react";
+import { BarChartIcon, LineChartIcon } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveContainer } from "recharts";
-import { cn } from "@/lib/utils";
-import { Button } from "@/primitives/button";
+import {
+  SegmentedControlItem,
+  SegmentedControlRoot,
+} from "@/components/segmented-control";
+
 import { AreaChart } from "./area-chart";
 import { BarChart } from "./bar-chart";
-
-const IconButton = (props: React.ComponentProps<typeof Button>) => {
-  return (
-    <Button
-      className={cn(
-        "inline-grid size-8 cursor-pointer place-items-center rounded-lg ring-1 ring-neutral-800 ring-inset transition hover:bg-neutral-800 aria-pressed:bg-neutral-700 aria-pressed:ring-0 [&_svg]:size-4",
-        props.className,
-      )}
-      {...props}
-    />
-  );
-};
 
 interface BarfChartProps {
   timestamps: string[];
@@ -69,18 +59,16 @@ export function BarfChart({ timestamps }: BarfChartProps) {
     <div>
       <div className="flex items-center justify-end gap-1.5">
         <h2 className="mr-auto font-medium text-xl">Barf Chart</h2>
-        <IconButton
-          aria-pressed={chartType === "bar"}
-          onClick={() => setChartType("bar")}
+        <SegmentedControlRoot
+          onValueChange={(value) => setChartType(value as "area" | "bar")}
         >
-          <BarChartIcon />
-        </IconButton>
-        <IconButton
-          aria-pressed={chartType === "area"}
-          onClick={() => setChartType("area")}
-        >
-          <AreaChartIcon />
-        </IconButton>
+          <SegmentedControlItem aria-label="Bar chart" value="bar">
+            <BarChartIcon className="size-4" />
+          </SegmentedControlItem>
+          <SegmentedControlItem aria-label="Area chart" value="area">
+            <LineChartIcon className="size-4" />
+          </SegmentedControlItem>
+        </SegmentedControlRoot>
       </div>
       <ResponsiveContainer className="aspect-video w-full">
         {/* <BarChart data={chartData} /> */}
