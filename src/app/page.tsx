@@ -121,8 +121,7 @@ export default function RootPage() {
           Barf!
         </Button>
       </div>
-      <section className="grid gap-6">
-        <h2 className="font-semibold text-2xl">Barf chart</h2>
+      <section>
         <BarfChart timestamps={timestamps} />
       </section>
       <section className="grid gap-6">

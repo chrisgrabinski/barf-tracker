@@ -1,20 +1,33 @@
 "use client";
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { AreaChartIcon, BarChartIcon } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { ResponsiveContainer } from "recharts";
+import { cn } from "@/lib/utils";
+import { Button } from "@/primitives/button";
+import { AreaChart } from "./area-chart";
+import { BarChart } from "./bar-chart";
+
+const IconButton = (props: React.ComponentProps<typeof Button>) => {
+  return (
+    <Button
+      className={cn(
+        "inline-grid size-8 cursor-pointer place-items-center rounded-lg ring-1 ring-neutral-800 ring-inset transition hover:bg-neutral-800 aria-pressed:bg-neutral-700 aria-pressed:ring-0 [&_svg]:size-4",
+        props.className,
+      )}
+      {...props}
+    />
+  );
+};
 
 interface BarfChartProps {
   timestamps: string[];
 }
 
 export function BarfChart({ timestamps }: BarfChartProps) {
+  const [chartType, setChartType] = useState<"bar" | "area">("bar");
+
   // Group timestamps by day and count occurrences
   const dataByDay = timestamps.reduce(
     (acc, timestamp) => {
@@ -53,35 +66,29 @@ export function BarfChart({ timestamps }: BarfChartProps) {
   }
 
   return (
-    <div className="w-full">
-      <ResponsiveContainer height={300} width="100%">
-        <BarChart
-          data={chartData}
-          margin={{
-            bottom: 5,
-            left: 20,
-            right: 30,
-            top: 5,
-          }}
+    <div>
+      <div className="flex items-center justify-end gap-1.5">
+        <h2 className="mr-auto font-medium text-xl">Barf Chart</h2>
+        <IconButton
+          aria-pressed={chartType === "bar"}
+          onClick={() => setChartType("bar")}
         >
-          <CartesianGrid stroke="#404040" strokeDasharray="3 3" />
-          <XAxis
-            dataKey="displayDate"
-            stroke="#a3a3a3"
-            style={{ fontSize: "12px" }}
-          />
-          <YAxis stroke="#a3a3a3" style={{ fontSize: "12px" }} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#171717",
-              border: "1px solid #404040",
-              borderRadius: "6px",
-              color: "#fff",
-            }}
-            labelStyle={{ color: "#a3a3a3" }}
-          />
-          <Bar dataKey="count" fill="#84cc16" radius={[4, 4, 0, 0]} />
-        </BarChart>
+          <BarChartIcon />
+        </IconButton>
+        <IconButton
+          aria-pressed={chartType === "area"}
+          onClick={() => setChartType("area")}
+        >
+          <AreaChartIcon />
+        </IconButton>
+      </div>
+      <ResponsiveContainer className="aspect-video w-full">
+        {/* <BarChart data={chartData} /> */}
+        {chartType === "area" ? (
+          <AreaChart data={chartData} />
+        ) : (
+          <BarChart data={chartData} />
+        )}
       </ResponsiveContainer>
     </div>
   );
