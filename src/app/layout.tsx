@@ -3,7 +3,7 @@ import { Google_Sans } from "next/font/google";
 
 import "./globals.css";
 import Image from "next/image";
-import grinningCatEmoji from "@/app/grinning-cat_1f63a.gif";
+import grinningCatEmoji from "@/assets/grinning-cat_1f63a.gif";
 
 const geist = Google_Sans({
   subsets: ["latin"],
