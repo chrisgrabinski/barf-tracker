@@ -3,11 +3,11 @@
 import { BarChartIcon, LineChartIcon } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveContainer } from "recharts";
+import { Card } from "@/components/card";
 import {
   SegmentedControlItem,
   SegmentedControlRoot,
 } from "@/components/segmented-control";
-
 import { AreaChart } from "./area-chart";
 import { BarChart } from "./bar-chart";
 
@@ -56,28 +56,30 @@ export function BarfChart({ timestamps }: BarfChartProps) {
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-end gap-1.5">
-        <h2 className="mr-auto font-medium text-xl">Barf Chart</h2>
-        <SegmentedControlRoot
-          onValueChange={(value) => setChartType(value as "area" | "bar")}
-        >
-          <SegmentedControlItem aria-label="Bar chart" value="bar">
-            <BarChartIcon className="size-4" />
-          </SegmentedControlItem>
-          <SegmentedControlItem aria-label="Area chart" value="area">
-            <LineChartIcon className="size-4" />
-          </SegmentedControlItem>
-        </SegmentedControlRoot>
+    <Card>
+      <div>
+        <div className="flex items-center justify-end gap-1.5">
+          <h2 className="mr-auto font-medium text-xl">Barf Chart</h2>
+          <SegmentedControlRoot
+            onValueChange={(value) => setChartType(value as "area" | "bar")}
+          >
+            <SegmentedControlItem aria-label="Bar chart" value="bar">
+              <BarChartIcon className="size-4" />
+            </SegmentedControlItem>
+            <SegmentedControlItem aria-label="Area chart" value="area">
+              <LineChartIcon className="size-4" />
+            </SegmentedControlItem>
+          </SegmentedControlRoot>
+        </div>
+        <ResponsiveContainer className="aspect-video w-full">
+          {/* <BarChart data={chartData} /> */}
+          {chartType === "area" ? (
+            <AreaChart data={chartData} />
+          ) : (
+            <BarChart data={chartData} />
+          )}
+        </ResponsiveContainer>
       </div>
-      <ResponsiveContainer className="aspect-video w-full">
-        {/* <BarChart data={chartData} /> */}
-        {chartType === "area" ? (
-          <AreaChart data={chartData} />
-        ) : (
-          <BarChart data={chartData} />
-        )}
-      </ResponsiveContainer>
-    </div>
+    </Card>
   );
 }

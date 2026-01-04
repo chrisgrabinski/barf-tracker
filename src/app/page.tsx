@@ -1,15 +1,11 @@
 "use client";
-import { format } from "date-fns";
-import { TrashIcon } from "lucide-react";
-import Image from "next/image";
+
 import { useCallback, useEffect, useState } from "react";
-import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
-import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
-import { Card } from "@/components/card";
+import { BarfChart } from "@/app/barf-chart";
+import { Form } from "@/app/form";
+import { List } from "@/app/list";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
-import { Button } from "@/primitives/button";
-import { BarfChart } from "./BarfChart";
 
 export default function RootPage() {
   const [entries, setEntries] = useState<BarfEntry[]>([]);
@@ -118,73 +114,12 @@ export default function RootPage() {
           Error: {error}
         </div>
       )}
-      <Card>
-        <form className="grid gap-3" onSubmit={handleSubmit}>
-          <label className="grid gap-1.5">
-            <span>Last food type</span>
-            <select
-              className="block bg-neutral-800 p-[1.5ch]"
-              defaultValue={entries[0]?.food_type || undefined}
-              name="food_type"
-            >
-              <option value="dry">Dry food</option>
-              <option value="wet">Wet food</option>
-            </select>
-          </label>
-          <Button
-            className="group flex w-full cursor-pointer items-center justify-center gap-[0.75ch] rounded-lg bg-lime-900 p-[1.5ch] font-medium text-lime-50 text-xl transition hover:bg-lime-800"
-            type="submit"
-          >
-            <div className="grid size-[1lh] place-items-center">
-              <Image
-                alt=""
-                className="col-start-1 row-start-1 size-full transition-opacity group-hover:opacity-0"
-                height={64}
-                src={nauseatedFaceEmoji}
-                width={64}
-              />
-              <Image
-                alt=""
-                className="col-start-1 row-start-1 size-full opacity-0 transition-opacity group-hover:opacity-100"
-                height={64}
-                src={vomitingFaceEmoji}
-                width={64}
-              />
-            </div>
-            Barf!
-          </Button>
-        </form>
-      </Card>
-      <Card>
-        <BarfChart timestamps={timestamps} />
-      </Card>
-      <Card>
-        <h2 className="font-semibold text-xl">Barf list</h2>
-        {entries.length === 0 && (
-          <p className="text-neutral-500">No barf entries yet</p>
-        )}
-        {entries.length > 0 && (
-          <ul className="divide-y divide-neutral-800">
-            {entries.map((entry) => (
-              <li
-                className="flex items-center justify-between gap-3 py-3"
-                key={entry.id}
-              >
-                {format(
-                  new Date(entry.created_at),
-                  "EEEE, MMMM d yyyy 'at' HH:mm",
-                )}
-                <Button
-                  className="grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
-                  onClick={() => handleDelete(entry.id)}
-                >
-                  <TrashIcon className="size-4" />
-                </Button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Card>
+      <Form
+        defaultValue={entries[0]?.food_type || undefined}
+        onSubmit={handleSubmit}
+      />
+      <BarfChart timestamps={timestamps} />
+      <List entries={entries} onDelete={handleDelete} />
     </div>
   );
 }
