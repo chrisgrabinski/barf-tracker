@@ -1,3 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+
+@utility field-sizing {
+  field-sizing: content;
+}

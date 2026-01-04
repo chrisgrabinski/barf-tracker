@@ -41,6 +41,7 @@ export default function RootPage() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const foodType = formData.get("food_type") as string;
+    const notes = formData.get("notes") as string;
 
     try {
       // Add food type to database (upsert to avoid duplicates)
@@ -61,7 +62,7 @@ export default function RootPage() {
       // Create new entry with food_type
       const { data, error: insertError } = await supabase
         .from("data")
-        .insert([{ food_type: foodType || null }])
+        .insert([{ food_type: foodType || null, notes: notes || null }])
         .select()
         .single();
 

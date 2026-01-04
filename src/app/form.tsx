@@ -4,6 +4,7 @@ import Image from "next/image";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Card } from "@/components/card";
+import { Textarea } from "@/components/textarea";
 import { Button } from "@/primitives/button";
 
 type FormProps = {
@@ -25,6 +26,10 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
             <option value="dry">Dry food</option>
             <option value="wet">Wet food</option>
           </select>
+        </label>
+        <label className="grid gap-1.5" htmlFor="notes">
+          <span>Notes</span>
+          <Textarea id="notes" name="notes" />
         </label>
         <Button
           className="group flex w-full cursor-pointer items-center justify-center gap-[0.75ch] rounded-lg bg-lime-900 p-[1.5ch] font-medium text-lime-50 text-xl transition hover:bg-lime-800"
