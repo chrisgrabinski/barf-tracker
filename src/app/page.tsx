@@ -98,8 +98,6 @@ export default function RootPage() {
     }
   };
 
-  const timestamps = entries.map((entry) => entry.created_at);
-
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -119,7 +117,7 @@ export default function RootPage() {
         defaultValue={entries[0]?.food_type || undefined}
         onSubmit={handleSubmit}
       />
-      <BarfChart timestamps={timestamps} />
+      <BarfChart entries={entries} />
       <List entries={entries} onDelete={handleDelete} />
     </div>
   );

@@ -1,15 +1,19 @@
 import {
   Bar,
   CartesianGrid,
+  Legend,
   BarChart as RechartsBarChart,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+import colors from "tailwindcss/colors";
 
 export const BarChart = (
   props: React.ComponentProps<typeof RechartsBarChart>,
 ) => {
+  console.log(props);
+
   return (
     <RechartsBarChart margin={{ left: -45, right: 12, top: 15 }} {...props}>
       <CartesianGrid stroke="#404040" strokeDasharray="4 4" />
@@ -28,7 +32,9 @@ export const BarChart = (
         }}
         labelStyle={{ color: "#a3a3a3" }}
       />
-      <Bar dataKey="count" fill="#84cc16" radius={[12, 12, 0, 0]} />
+      <Bar dataKey="wet" fill={colors.lime[600]} stackId="a" />
+      <Bar dataKey="dry" fill={colors.orange[400]} stackId="a" />
+      <Legend />
     </RechartsBarChart>
   );
 };

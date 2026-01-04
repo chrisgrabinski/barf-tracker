@@ -1,5 +1,6 @@
 "use client";
 
+import { isSameDay } from "date-fns";
 import { BarChartIcon, LineChartIcon } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveContainer } from "recharts";
@@ -8,44 +9,43 @@ import {
   SegmentedControlItem,
   SegmentedControlRoot,
 } from "@/components/segmented-control";
+import type { BarfEntry } from "@/lib/types";
 import { AreaChart } from "./area-chart";
 import { BarChart } from "./bar-chart";
 
 interface BarfChartProps {
-  timestamps: string[];
+  entries: BarfEntry[];
 }
 
-export function BarfChart({ timestamps }: BarfChartProps) {
+export function BarfChart({ entries }: BarfChartProps) {
   const [chartType, setChartType] = useState<"bar" | "area">("bar");
 
-  // Group timestamps by day and count occurrences
-  const dataByDay = timestamps.reduce(
-    (acc, timestamp) => {
-      const date = new Date(timestamp);
-      const dayKey = date.toISOString().split("T")[0]; // YYYY-MM-DD format
+  const timestamps = entries.map((entry) => entry.created_at);
 
-      if (!acc[dayKey]) {
-        acc[dayKey] = 0;
-      }
-      acc[dayKey] += 1;
+  const daysDuration = 14;
 
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  const dates = Array.from({ length: daysDuration }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    return date;
+  }).sort((a, b) => a.getTime() - b.getTime());
 
-  // Convert to array format for Recharts
-  const chartData = Object.entries(dataByDay)
-    .map(([date, count]) => ({
-      count,
+  const datesWithEntries = dates.map((date) => {
+    const entriesForDate = entries.filter((entry) => {
+      const entryDate = new Date(entry.created_at);
+      return isSameDay(entryDate, date);
+    });
+
+    return {
       date,
-      // Format date for display (e.g., "Jan 15")
       displayDate: new Date(date).toLocaleDateString("en-US", {
         day: "numeric",
         month: "short",
       }),
-    }))
-    .sort((a, b) => a.date.localeCompare(b.date)); // Sort by date
+      dry: entriesForDate.filter((entry) => entry.food_type === "dry").length,
+      wet: entriesForDate.filter((entry) => entry.food_type === "wet").length,
+    };
+  });
 
   if (timestamps.length === 0) {
     return (
@@ -74,9 +74,9 @@ export function BarfChart({ timestamps }: BarfChartProps) {
         <ResponsiveContainer className="aspect-video w-full">
           {/* <BarChart data={chartData} /> */}
           {chartType === "area" ? (
-            <AreaChart data={chartData} />
+            <AreaChart data={datesWithEntries} />
           ) : (
-            <BarChart data={chartData} />
+            <BarChart data={datesWithEntries} />
           )}
         </ResponsiveContainer>
       </div>
