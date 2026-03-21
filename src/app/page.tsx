@@ -139,7 +139,7 @@ export default function RootPage() {
   }
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-4">
       {error && (
         <div className="rounded-lg border border-red-500 bg-red-950/20 p-4 text-red-400">
           Error: {error}
@@ -152,7 +152,7 @@ export default function RootPage() {
       <h2 className="font-medium text-2xl">Weekly overview</h2>
       <BarfChart entries={entries} />
       <h2 className="font-medium text-2xl">Stats</h2>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4">
         <Stat label="Last 6 weeks average" value={lastSixWeeksAverage} />
         <Stat label="Total average" value={totalAverage} />
       </div>
