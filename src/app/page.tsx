@@ -2,9 +2,10 @@
 
 import {
   differenceInCalendarWeeks,
-  isBefore,
+  format,
+  isSameDay,
   startOfWeek,
-  subWeeks,
+  subDays,
 } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
 import { BarfChart } from "@/app/barf-chart";
@@ -13,6 +14,21 @@ import { List } from "@/app/list";
 import { Stat } from "@/components/stat";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
+
+const today = new Date();
+
+const formatDay = (date: Date) => {
+  return format(date, "yyyy-MM-dd");
+};
+
+const getDays = (count: number) => {
+  return [
+    formatDay(today),
+    ...Array.from({ length: count - 1 }, (_, index) =>
+      formatDay(subDays(today, index + 1)),
+    ),
+  ];
+};
 
 export default function RootPage() {
   const [entries, setEntries] = useState<BarfEntry[]>([]);
@@ -60,14 +76,6 @@ export default function RootPage() {
       }) + 1
     : 0;
   const totalAverage = totalWeeks > 0 ? totalBarfs / totalWeeks : 0;
-
-  const sixWeeksAgoStart = startOfWeek(subWeeks(new Date(), 5), {
-    weekStartsOn: 1,
-  });
-  const lastSixWeeksBarfs = entries.filter(
-    (entry) => !isBefore(new Date(entry.created_at), sixWeeksAgoStart),
-  ).length;
-  const lastSixWeeksAverage = lastSixWeeksBarfs / 6;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -138,6 +146,15 @@ export default function RootPage() {
     );
   }
 
+  const oneWeekData = getDays(7)
+    .map((value) => {
+      return entries.filter((entry) =>
+        isSameDay(new Date(value), new Date(entry.created_at)),
+      );
+    })
+    .map((entries) => entries.length)
+    .reverse();
+
   return (
     <div className="grid gap-4">
       {error && (
@@ -153,7 +170,15 @@ export default function RootPage() {
       <BarfChart entries={entries} />
       <h2 className="font-medium text-2xl">Stats</h2>
       <div className="grid grid-cols-2 gap-4">
-        <Stat label="Last 6 weeks average" value={lastSixWeeksAverage} />
+        <Stat
+          data={oneWeekData}
+          label="Last seven days"
+          sentiment="negative"
+          value={oneWeekData.reduce<number>(
+            (accumulator, currentValue) => accumulator + currentValue,
+            0,
+          )}
+        />
         <Stat label="Total average" value={totalAverage} />
       </div>
       <h2 className="font-medium text-2xl">History</h2>
