@@ -1,11 +1,17 @@
 "use client";
 
+import {
+  differenceInCalendarWeeks,
+  isBefore,
+  startOfWeek,
+  subWeeks,
+} from "date-fns";
 import { useCallback, useEffect, useState } from "react";
-import { differenceInCalendarWeeks, isBefore, startOfWeek, subWeeks } from "date-fns";
 import { BarfChart } from "@/app/barf-chart";
 import { Form } from "@/app/form";
 import { List } from "@/app/list";
 import { Card } from "@/components/card";
+import { Stat } from "@/components/stat";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
 
@@ -43,7 +49,10 @@ export default function RootPage() {
 
   const totalBarfs = entries.length;
   const currentWeekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const firstEntryDate = entries.length > 0 ? new Date(entries[entries.length - 1].created_at) : null;
+  const firstEntryDate =
+    entries.length > 0
+      ? new Date(entries[entries.length - 1].created_at)
+      : null;
   const firstEntryWeekStart = firstEntryDate
     ? startOfWeek(firstEntryDate, { weekStartsOn: 1 })
     : null;
@@ -55,7 +64,9 @@ export default function RootPage() {
     : 0;
   const totalAverage = totalWeeks > 0 ? totalBarfs / totalWeeks : 0;
 
-  const sixWeeksAgoStart = startOfWeek(subWeeks(new Date(), 5), { weekStartsOn: 1 });
+  const sixWeeksAgoStart = startOfWeek(subWeeks(new Date(), 5), {
+    weekStartsOn: 1,
+  });
   const lastSixWeeksBarfs = entries.filter(
     (entry) => !isBefore(new Date(entry.created_at), sixWeeksAgoStart),
   ).length;
@@ -143,20 +154,8 @@ export default function RootPage() {
       />
       <BarfChart entries={entries} />
       <div className="grid grid-cols-2 gap-6">
-        <Card>
-          <div className="space-y-1">
-            <p className="text-neutral-400 text-sm">Last 6 weeks average</p>
-            <p className="font-semibold text-2xl">
-              {formatAverage(lastSixWeeksAverage)} / week
-            </p>
-          </div>
-        </Card>
-        <Card>
-          <div className="space-y-1">
-            <p className="text-neutral-400 text-sm">Total average</p>
-            <p className="font-semibold text-2xl">{formatAverage(totalAverage)} / week</p>
-          </div>
-        </Card>
+        <Stat label="Last 6 weeks average" value={lastSixWeeksAverage} />
+        <Stat label="Total average" value={totalAverage} />
       </div>
       <List entries={entries} onDelete={handleDelete} />
     </div>
