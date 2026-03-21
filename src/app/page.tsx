@@ -10,7 +10,6 @@ import { useCallback, useEffect, useState } from "react";
 import { BarfChart } from "@/app/barf-chart";
 import { Form } from "@/app/form";
 import { List } from "@/app/list";
-import { Card } from "@/components/card";
 import { Stat } from "@/components/stat";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
@@ -44,8 +43,6 @@ export default function RootPage() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
-
-  const formatAverage = (value: number) => value.toFixed(1);
 
   const totalBarfs = entries.length;
   const currentWeekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
