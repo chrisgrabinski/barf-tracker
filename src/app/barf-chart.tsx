@@ -1,6 +1,13 @@
 "use client";
 
-import { isSameDay } from "date-fns";
+import {
+  endOfWeek,
+  format,
+  getISOWeek,
+  isWithinInterval,
+  startOfWeek,
+  subWeeks,
+} from "date-fns";
 import { BarChartIcon, LineChartIcon } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveContainer } from "recharts";
@@ -22,28 +29,33 @@ export function BarfChart({ entries }: BarfChartProps) {
 
   const timestamps = entries.map((entry) => entry.created_at);
 
-  const daysDuration = 14;
+  const weeksDuration = 8;
 
-  const dates = Array.from({ length: daysDuration }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    return date;
-  }).sort((a, b) => a.getTime() - b.getTime());
+  const weeks = Array.from({ length: weeksDuration }, (_, i) => {
+    const weekStartDate = startOfWeek(subWeeks(new Date(), i), {
+      weekStartsOn: 1,
+    });
+    const weekEndDate = endOfWeek(weekStartDate, { weekStartsOn: 1 });
+    return { weekEndDate, weekStartDate };
+  }).sort((a, b) => a.weekStartDate.getTime() - b.weekStartDate.getTime());
 
-  const datesWithEntries = dates.map((date) => {
-    const entriesForDate = entries.filter((entry) => {
+  const datesWithEntries = weeks.map(({ weekStartDate, weekEndDate }) => {
+    const entriesForWeek = entries.filter((entry) => {
       const entryDate = new Date(entry.created_at);
-      return isSameDay(entryDate, date);
+      return isWithinInterval(entryDate, {
+        end: weekEndDate,
+        start: weekStartDate,
+      });
     });
 
     return {
-      date,
-      displayDate: new Date(date).toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-      }),
-      dry: entriesForDate.filter((entry) => entry.food_type === "dry").length,
-      wet: entriesForDate.filter((entry) => entry.food_type === "wet").length,
+      date: weekStartDate,
+      displayDate: `W${getISOWeek(weekStartDate)}: ${format(
+        weekStartDate,
+        "MMM d",
+      )} - ${format(weekEndDate, "MMM d")}`,
+      dry: entriesForWeek.filter((entry) => entry.food_type === "dry").length,
+      wet: entriesForWeek.filter((entry) => entry.food_type === "wet").length,
     };
   });
 
@@ -72,7 +84,6 @@ export function BarfChart({ entries }: BarfChartProps) {
           </SegmentedControlRoot>
         </div>
         <ResponsiveContainer className="aspect-video w-full">
-          {/* <BarChart data={chartData} /> */}
           {chartType === "area" ? (
             <AreaChart data={datesWithEntries} />
           ) : (

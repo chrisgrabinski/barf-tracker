@@ -12,8 +12,6 @@ import colors from "tailwindcss/colors";
 export const BarChart = (
   props: React.ComponentProps<typeof RechartsBarChart>,
 ) => {
-  console.log(props);
-
   return (
     <RechartsBarChart margin={{ left: -45, right: 12, top: 15 }} {...props}>
       <CartesianGrid stroke="#404040" strokeDasharray="4 4" />
