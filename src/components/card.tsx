@@ -1,20 +1,17 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva(
-  "overflow-clip rounded-xl p-4 ring-1 ring-neutral-800",
-  {
-    defaultVariants: {
-      variant: "default",
-    },
-    variants: {
-      variant: {
-        default: "bg-neutral-950",
-        glass: "bg-neutral-950/70 backdrop-blur-md backdrop-saturate-150",
-      },
+const cardVariants = cva("overflow-clip rounded-xl p-4", {
+  defaultVariants: {
+    variant: "default",
+  },
+  variants: {
+    variant: {
+      default: "bg-neutral-900",
+      glass: "bg-neutral-950/70 backdrop-blur-md backdrop-saturate-150",
     },
   },
-);
+});
 
 type CardVariants = VariantProps<typeof cardVariants>;
 
