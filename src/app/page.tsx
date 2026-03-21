@@ -2,21 +2,13 @@
 
 import { format, isSameDay, subDays } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
-import {
-  Bar,
-  CartesianGrid,
-  Legend,
-  BarChart as RechartsBarChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import colors from "tailwindcss/colors";
+
 import { BarfChart } from "@/app/barf-chart";
 import { Form } from "@/app/form";
 import { List } from "@/app/list";
-import { Card } from "@/components/card";
+
 import { Stat } from "@/components/stat";
+import { WidgetRoot, WidgetTitle } from "@/components/widget";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
 
@@ -167,8 +159,8 @@ export default function RootPage() {
             0,
           )}
         />
-        <Card>
-          <div className="font-medium text-neutral-400">Food cause</div>
+        <WidgetRoot>
+          <WidgetTitle>Food cause</WidgetTitle>
           <div className="mt-4 grid gap-4">
             <div className="flex items-center gap-4">
               <div className="w-8 text-right">Wet</div>
@@ -199,7 +191,7 @@ export default function RootPage() {
               />
             </div>
           </div>
-        </Card>
+        </WidgetRoot>
       </div>
       <h2 className="font-medium text-2xl">History</h2>
       <List entries={entries} onDelete={handleDelete} />

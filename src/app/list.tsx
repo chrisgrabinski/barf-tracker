@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { TrashIcon } from "lucide-react";
 import { Card } from "@/components/card";
+import { IconButton } from "@/components/icon-button";
 import type { BarfEntry } from "@/lib/types";
-import { Button } from "@/primitives/button";
 
 type ListProps = {
   entries: BarfEntry[];
@@ -19,7 +19,7 @@ export const List = ({ entries, onDelete }: ListProps) => {
         <ul className="grid gap-8">
           {entries.map((entry) => (
             <li className="flex items-center gap-2" key={entry.id}>
-              <div className="size-12 rounded-full bg-neutral-600" />
+              <div className="size-12 rounded-full bg-neutral-800" />
               <div>
                 <div className="font-medium">
                   {format(
@@ -29,12 +29,13 @@ export const List = ({ entries, onDelete }: ListProps) => {
                 </div>
                 <div className="text-neutral-400">{entry.food_type} food</div>
               </div>
-              <Button
-                className="ml-auto grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
+              <IconButton
+                className="ml-auto"
                 onClick={() => onDelete(entry.id)}
+                variant="destructive"
               >
-                <TrashIcon className="size-4" />
-              </Button>
+                <TrashIcon />
+              </IconButton>
             </li>
           ))}
         </ul>

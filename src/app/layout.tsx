@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={geist.className} lang="en">
-      <body className="bg-neutral-950 p-3 text-neutral-50">
+      <body className="bg-background p-3 text-foreground">
         <Header />
         <main className="container mx-auto grid gap-6">{children}</main>
       </body>

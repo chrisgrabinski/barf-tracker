@@ -3,8 +3,8 @@
 import Image from "next/image";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
+import { Button } from "@/components/button";
 import { Card } from "@/components/card";
-import { Button } from "@/primitives/button";
 
 type FormProps = {
   defaultValue?: string;
@@ -26,10 +26,7 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
             <option value="wet">Wet food</option>
           </select>
         </label>
-        <Button
-          className="group flex w-full cursor-pointer items-center justify-center gap-[0.75ch] rounded-lg bg-lime-900 p-[1.5ch] font-medium text-lime-50 text-xl transition hover:bg-lime-800"
-          type="submit"
-        >
+        <Button className="group" size="lg" type="submit" variant="primary">
           <div className="grid size-[1lh] place-items-center">
             <Image
               alt=""

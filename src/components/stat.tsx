@@ -3,8 +3,9 @@ import { Area, AreaChart } from "recharts";
 import colors from "tailwindcss/colors";
 import type { Sentiment } from "@/lib/sentiment";
 import { getSentimentTrend, getTrendColorValue } from "@/lib/trend";
-import { Card } from "./card";
+
 import { TrendPill } from "./trend-pill";
+import { WidgetRoot, WidgetTitle } from "./widget";
 
 type ChartProps = {
   data: Array<number>;
@@ -69,8 +70,8 @@ const Stat = ({
   value,
 }: StatProps) => {
   return (
-    <Card>
-      <div className="font-medium text-neutral-400">{label}</div>
+    <WidgetRoot>
+      <WidgetTitle>{label}</WidgetTitle>
       <div className="flex items-center gap-2 font-medium text-3xl">
         {value}
         {previousValue && (
@@ -85,7 +86,7 @@ const Stat = ({
           start={previousValue}
         />
       )}
-    </Card>
+    </WidgetRoot>
   );
 };
 
