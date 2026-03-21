@@ -149,11 +149,14 @@ export default function RootPage() {
         defaultValue={entries[0]?.food_type || undefined}
         onSubmit={handleSubmit}
       />
+      <h2 className="font-medium text-2xl">Weekly overview</h2>
       <BarfChart entries={entries} />
+      <h2 className="font-medium text-2xl">Stats</h2>
       <div className="grid grid-cols-2 gap-6">
         <Stat label="Last 6 weeks average" value={lastSixWeeksAverage} />
         <Stat label="Total average" value={totalAverage} />
       </div>
+      <h2 className="font-medium text-2xl">History</h2>
       <List entries={entries} onDelete={handleDelete} />
     </div>
   );

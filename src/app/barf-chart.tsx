@@ -71,8 +71,8 @@ export function BarfChart({ entries }: BarfChartProps) {
     <Card>
       <div>
         <div className="flex items-center justify-end gap-1.5">
-          <h2 className="mr-auto font-medium text-xl">Barf Chart</h2>
           <SegmentedControlRoot
+            defaultValue="bar"
             onValueChange={(value) => setChartType(value as "area" | "bar")}
           >
             <SegmentedControlItem aria-label="Bar chart" value="bar">

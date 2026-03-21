@@ -12,23 +12,25 @@ type ListProps = {
 export const List = ({ entries, onDelete }: ListProps) => {
   return (
     <Card>
-      <h2 className="font-semibold text-xl">Barf list</h2>
       {entries.length === 0 && (
         <p className="text-neutral-500">No barf entries yet</p>
       )}
       {entries.length > 0 && (
-        <ul className="divide-y divide-neutral-800">
+        <ul className="grid gap-8">
           {entries.map((entry) => (
-            <li
-              className="flex items-center justify-between gap-3 py-3"
-              key={entry.id}
-            >
-              {format(
-                new Date(entry.created_at),
-                "EEEE, MMMM d yyyy 'at' HH:mm",
-              )}
+            <li className="flex items-center gap-2" key={entry.id}>
+              <div className="size-12 rounded-full bg-neutral-600" />
+              <div>
+                <div className="font-medium">
+                  {format(
+                    new Date(entry.created_at),
+                    "EEEE, MMMM d yyyy 'at' HH:mm",
+                  )}
+                </div>
+                <div className="text-neutral-400">{entry.food_type} food</div>
+              </div>
               <Button
-                className="grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
+                className="ml-auto grid size-8 cursor-pointer place-items-center rounded-lg bg-red-500/25 hover:bg-red-500"
                 onClick={() => onDelete(entry.id)}
               >
                 <TrashIcon className="size-4" />
