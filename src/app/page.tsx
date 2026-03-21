@@ -1,16 +1,21 @@
 "use client";
 
-import {
-  differenceInCalendarWeeks,
-  format,
-  isSameDay,
-  startOfWeek,
-  subDays,
-} from "date-fns";
+import { format, isSameDay, subDays } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
+import {
+  Bar,
+  CartesianGrid,
+  Legend,
+  BarChart as RechartsBarChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import colors from "tailwindcss/colors";
 import { BarfChart } from "@/app/barf-chart";
 import { Form } from "@/app/form";
 import { List } from "@/app/list";
+import { Card } from "@/components/card";
 import { Stat } from "@/components/stat";
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
@@ -59,23 +64,6 @@ export default function RootPage() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
-
-  const totalBarfs = entries.length;
-  const currentWeekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const firstEntryDate =
-    entries.length > 0
-      ? new Date(entries[entries.length - 1].created_at)
-      : null;
-  const firstEntryWeekStart = firstEntryDate
-    ? startOfWeek(firstEntryDate, { weekStartsOn: 1 })
-    : null;
-
-  const totalWeeks = firstEntryWeekStart
-    ? differenceInCalendarWeeks(currentWeekStart, firstEntryWeekStart, {
-        weekStartsOn: 1,
-      }) + 1
-    : 0;
-  const totalAverage = totalWeeks > 0 ? totalBarfs / totalWeeks : 0;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -179,7 +167,39 @@ export default function RootPage() {
             0,
           )}
         />
-        <Stat label="Total average" value={totalAverage} />
+        <Card>
+          <div className="font-medium text-neutral-400">Food cause</div>
+          <div className="mt-4 grid gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-8 text-right">Wet</div>
+              <div
+                className="h-8 rounded-sm bg-green-500"
+                style={{
+                  width: `${
+                    (entries.filter((entry) => entry.food_type === "wet")
+                      .length /
+                      entries.length) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-8 text-right">Dry</div>
+              <div
+                className="h-8 rounded-sm bg-orange-500"
+                style={{
+                  width: `${
+                    (entries.filter((entry) => entry.food_type === "dry")
+                      .length /
+                      entries.length) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
+          </div>
+        </Card>
       </div>
       <h2 className="font-medium text-2xl">History</h2>
       <List entries={entries} onDelete={handleDelete} />
