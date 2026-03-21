@@ -29,7 +29,7 @@ export function BarfChart({ entries }: BarfChartProps) {
 
   const timestamps = entries.map((entry) => entry.created_at);
 
-  const weeksDuration = 8;
+  const weeksDuration = 6;
 
   const weeks = Array.from({ length: weeksDuration }, (_, i) => {
     const weekStartDate = startOfWeek(subWeeks(new Date(), i), {
