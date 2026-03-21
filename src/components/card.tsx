@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  "overflow-clip rounded-xl p-6 ring-1 ring-neutral-800",
+  "overflow-clip rounded-xl p-4 ring-1 ring-neutral-800",
   {
     defaultVariants: {
       variant: "default",
