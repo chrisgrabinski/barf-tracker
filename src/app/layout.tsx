@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className="bg-background p-3 text-foreground">
         <Header />
         <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
-          <div className="pointer-events-auto flex w-48 gap-1 rounded-full bg-background/25 bg-linear-to-t from-background/33 p-1 backdrop-blur-md backdrop-saturate-150">
+          <div className="pointer-events-auto flex w-48 gap-1 rounded-full bg-black/50 bg-linear-to-t from-black/50 p-1 backdrop-blur-md backdrop-saturate-150">
             <Button
               asChild
               className="grid flex-1 place-items-center gap-1 rounded-full bg-transparent p-2"
