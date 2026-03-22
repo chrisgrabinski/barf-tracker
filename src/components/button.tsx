@@ -1,3 +1,4 @@
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Button as ButtonPrimitive } from "@/primitives/button";
@@ -11,8 +12,8 @@ const buttonVariants = cva(
     },
     variants: {
       size: {
-        lg: "h-12 text-xl [&*>svg]:h-6",
-        md: "h-8 text-lg [&*>svg]:h-4",
+        lg: "h-16 text-xl [&*>svg]:h-6",
+        md: "h-12 text-lg [&*>svg]:h-4",
         sm: "h-6 text-base [&*>svg]:h-3",
         xs: "h-4 text-sm [&*>svg]:h-2",
       },
@@ -28,21 +29,27 @@ const buttonVariants = cva(
 
 type ButtonVariants = VariantProps<typeof buttonVariants>;
 
-type ButtonProps = React.ComponentProps<"button"> & ButtonVariants;
+interface ButtonProps extends React.ComponentProps<"button">, ButtonVariants {
+  asChild?: boolean;
+}
 
 const Button = ({
+  asChild,
   children,
   className,
   size,
   variant,
   ...props
 }: ButtonProps) => {
+  const Component = asChild ? Slot : "button";
+
   return (
     <ButtonPrimitive
+      asChild
       className={cn(buttonVariants({ className, size, variant }))}
       {...props}
     >
-      {children}
+      <Component>{children}</Component>
     </ButtonPrimitive>
   );
 };
