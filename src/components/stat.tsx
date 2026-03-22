@@ -25,7 +25,7 @@ const Chart = ({ data, sentiment, start, end }: ChartProps) => {
           start,
         }),
       )
-    : colors.white;
+    : colors.violet[600];
 
   return (
     <AreaChart
