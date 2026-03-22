@@ -12,10 +12,10 @@ const buttonVariants = cva(
     },
     variants: {
       size: {
-        lg: "h-16 text-xl [&*>svg]:h-6",
-        md: "h-12 text-lg [&*>svg]:h-4",
-        sm: "h-6 text-base [&*>svg]:h-3",
-        xs: "h-4 text-sm [&*>svg]:h-2",
+        lg: "h-16 text-xl [&*>svg]:h-8",
+        md: "h-12 text-lg [&*>svg]:h-6",
+        sm: "h-8 text-base [&*>svg]:h-4",
+        xs: "h-6 text-sm [&*>svg]:h-3",
       },
       variant: {
         destructive: "bg-red-500",

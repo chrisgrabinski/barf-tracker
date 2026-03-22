@@ -32,6 +32,7 @@ export const List = ({ entries, onDelete }: ListProps) => {
               <IconButton
                 className="ml-auto"
                 onClick={() => onDelete(entry.id)}
+                size="sm"
                 variant="destructive"
               >
                 <TrashIcon />

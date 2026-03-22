@@ -24,12 +24,12 @@ export default function RootLayout({
       <body className="bg-background p-3 text-foreground">
         <Header />
         <nav className="fixed bottom-8 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-background/25 bg-linear-to-t from-background/33 p-2 backdrop-blur-md backdrop-saturate-150">
-          <IconButton aria-label="Home" asChild size="lg">
+          <IconButton aria-label="Home" asChild>
             <Link href="/">
               <HomeIcon />
             </Link>
           </IconButton>
-          <IconButton aria-label="Food" asChild size="lg">
+          <IconButton aria-label="Food" asChild>
             <Link href="/food">
               <FishIcon />
             </Link>

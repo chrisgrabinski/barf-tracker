@@ -8,10 +8,10 @@ const iconButtonVariants = cva("inline-grid place-items-center p-0", {
   },
   variants: {
     size: {
-      lg: "size-12",
-      md: "size-8",
-      sm: "size-6",
-      xs: "size-4",
+      lg: "size-16",
+      md: "size-12",
+      sm: "size-8",
+      xs: "size-6",
     },
   },
 });
@@ -27,7 +27,11 @@ const IconButton = ({
   ...props
 }: IconButtonProps) => {
   return (
-    <Button className={cn(iconButtonVariants({ className, size }))} {...props}>
+    <Button
+      className={cn(iconButtonVariants({ className, size }))}
+      size={size}
+      {...props}
+    >
       {children}
     </Button>
   );
