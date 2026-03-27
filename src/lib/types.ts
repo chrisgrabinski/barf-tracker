@@ -5,4 +5,3 @@ export interface BarfEntry {
   hidden: boolean;
   food_type?: string | null;
 }
-

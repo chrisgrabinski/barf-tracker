@@ -4,7 +4,6 @@ import {
   ArrowUpRightIcon,
   type LucideIcon,
 } from "lucide-react";
-import type React from "react";
 
 type Trend = "up" | "down" | "neutral";
 

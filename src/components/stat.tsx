@@ -1,11 +1,10 @@
 import { useId } from "react";
 import { Area, AreaChart } from "recharts";
 import colors from "tailwindcss/colors";
+import { TrendPill } from "@/components/trend-pill";
+import { WidgetRoot, WidgetTitle } from "@/components/widget";
 import type { Sentiment } from "@/lib/sentiment";
 import { getSentimentTrend, getTrendColorValue } from "@/lib/trend";
-
-import { TrendPill } from "./trend-pill";
-import { WidgetRoot, WidgetTitle } from "./widget";
 
 type ChartProps = {
   data: Array<number>;

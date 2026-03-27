@@ -1,4 +1,6 @@
+import { Pill } from "lucide-react";
 import type React from "react";
+import { TrendIcon } from "@/components/trend-icon";
 import type { Sentiment } from "@/lib/sentiment";
 import {
   getDifference,
@@ -6,8 +8,6 @@ import {
   getTrend,
   type Trend,
 } from "@/lib/trend";
-import { Pill } from "./pill";
-import { TrendIcon } from "./trend-icon";
 
 type PillProps = React.ComponentProps<typeof Pill>;
 

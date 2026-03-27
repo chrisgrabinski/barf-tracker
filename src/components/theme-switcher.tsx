@@ -3,8 +3,8 @@
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { IconButton } from "@/components/icon-button";
 import { cn } from "@/lib/utils";
-import { IconButton } from "./icon-button";
 
 const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);

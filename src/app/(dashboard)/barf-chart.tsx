@@ -11,14 +11,14 @@ import {
 import { BarChartIcon, LineChartIcon } from "lucide-react";
 import { useState } from "react";
 import { ResponsiveContainer } from "recharts";
+import { AreaChart } from "@/app/(dashboard)/area-chart";
+import { BarChart } from "@/app/(dashboard)/bar-chart";
 import { Card } from "@/components/card";
 import {
   SegmentedControlItem,
   SegmentedControlRoot,
 } from "@/components/segmented-control";
 import type { BarfEntry } from "@/lib/types";
-import { AreaChart } from "./area-chart";
-import { BarChart } from "./bar-chart";
 
 interface BarfChartProps {
   entries: BarfEntry[];

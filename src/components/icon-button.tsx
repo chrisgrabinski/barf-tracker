@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { Button } from "@/components/button";
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
 
 const iconButtonVariants = cva("inline-grid place-items-center p-0", {
   defaultVariants: {

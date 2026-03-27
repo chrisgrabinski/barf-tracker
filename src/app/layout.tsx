@@ -4,7 +4,7 @@ import "./globals.css";
 import { FishIcon, LayoutDashboardIcon, PawPrintIcon } from "lucide-react";
 import Link from "next/link";
 import { ThemeProvider } from "next-themes";
-import { Header } from "@/app/header";
+import { Header } from "@/app/(dashboard)/header";
 import { Button } from "@/primitives/button";
 
 const geist = Bricolage_Grotesque({

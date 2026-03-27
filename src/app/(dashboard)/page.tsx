@@ -3,9 +3,9 @@
 import { format, isSameDay, subDays } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
 
-import { BarfChart } from "@/app/barf-chart";
-import { Form } from "@/app/form";
-import { List } from "@/app/list";
+import { BarfChart } from "@/app/(dashboard)/barf-chart";
+import { Form } from "@/app/(dashboard)/form";
+import { List } from "@/app/(dashboard)/list";
 
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
