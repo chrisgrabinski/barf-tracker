@@ -2,10 +2,21 @@
 
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { IconButton } from "./icon-button";
 
 const ThemeSwitcher = () => {
+  const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const toggleTheme = () => {
     if (resolvedTheme === "light") {
@@ -18,13 +29,13 @@ const ThemeSwitcher = () => {
   return (
     <div>
       <IconButton
-        className={resolvedTheme === "light" ? "hidden" : undefined}
+        className={cn(resolvedTheme === "light" && "hidden")}
         onClick={toggleTheme}
       >
         <SunIcon />
       </IconButton>
       <IconButton
-        className={resolvedTheme === "dark" ? "hidden" : undefined}
+        className={cn(resolvedTheme === "dark" && "hidden")}
         onClick={toggleTheme}
       >
         <MoonIcon />
