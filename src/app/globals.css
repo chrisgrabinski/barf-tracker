@@ -12,6 +12,9 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
 
@@ -26,41 +29,47 @@
 :root {
   --accent: var(--color-violet-600);
 
-  --background: var(--color-violet-200);
-  --foreground: var(--color-violet-950);
+  --background: var(--color-neutral-50);
+  --foreground: var(--color-neutral-950);
 
-  --card: var(--color-white);
+  --card: var(--color-neutral-100);
   --card-foreground: var(--foreground);
 
-  --primary: var(--color-violet-600);
+  --muted: var(--color-neutral-300);
+  --muted-foreground: var(--color-neutral-700);
+
+  --primary: var(--accent);
   --primary-foreground: var(--color-violet-50);
 
   --secondary: var(--color-violet-300);
   --secondary-foreground: var(--color-violet-700);
 
-  --input: var(--color-violet-200);
+  --input: var(--color-neutral-200);
 
-  --border: var(--color-violet-300);
+  --border: var(--color-neutral-400);
 }
 
 [data-theme="dark"] {
   ---accent: var(--color-violet-600);
 
-  --background: color-mix(var(--color-violet-950), black 50%);
-  --foreground: var(--color-violet-50);
+  --background: var(--color-neutral-950);
+  --foreground: var(--color-neutral-50);
 
-  --card: color-mix(var(--color-violet-950), black 25%);
+  --card: var(--color-neutral-900);
   --card-foreground: var(--foreground);
 
-  --primary: var(--color-violet-600);
+  --muted: var(--color-neutral-700);
+  --muted-foreground: var(--color-neutral-300);
+
+  --primary: var(--accent);
   --primary-foreground: var(--color-violet-50);
 
   --secondary: var(--color-violet-950);
   --secondary-foreground: var(--color-violet-400);
 
-  --input: var(--color-violet-900);
+  --input: var(--color-n-900);
 
-  --border: var(--color-violet-700);
+  --border: var(--color-neutral-600);
 }
 
 @utility field-sizing {

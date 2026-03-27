@@ -13,13 +13,13 @@ export const List = ({ entries, onDelete }: ListProps) => {
   return (
     <Card>
       {entries.length === 0 && (
-        <p className="text-neutral-500">No barf entries yet</p>
+        <p className="text-muted-foreground">No barf entries yet</p>
       )}
       {entries.length > 0 && (
         <ul className="grid gap-8">
           {entries.map((entry) => (
             <li className="flex items-center gap-2" key={entry.id}>
-              <div className="size-12 rounded-full bg-neutral-800" />
+              <div className="size-12 rounded-full bg-muted" />
               <div>
                 <div className="font-medium">
                   {format(
@@ -27,7 +27,9 @@ export const List = ({ entries, onDelete }: ListProps) => {
                     "EEEE, MMMM d yyyy 'at' HH:mm",
                   )}
                 </div>
-                <div className="text-neutral-400">{entry.food_type} food</div>
+                <div className="text-muted-foreground">
+                  {entry.food_type} food
+                </div>
               </div>
               <IconButton
                 className="ml-auto"

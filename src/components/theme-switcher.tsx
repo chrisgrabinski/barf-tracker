@@ -31,12 +31,14 @@ const ThemeSwitcher = () => {
       <IconButton
         className={cn(resolvedTheme === "light" && "hidden")}
         onClick={toggleTheme}
+        variant="tertiary"
       >
         <SunIcon />
       </IconButton>
       <IconButton
         className={cn(resolvedTheme === "dark" && "hidden")}
         onClick={toggleTheme}
+        variant="tertiary"
       >
         <MoonIcon />
       </IconButton>
