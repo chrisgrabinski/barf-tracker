@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/primitives/button";
 
 const segmentedControlVariants = cva(
-  "flex gap-1 rounded-full border border-border bg-input p-[0.333ch] font-medium",
+  "flex gap-1 rounded-xl border border-border bg-input p-[0.333ch] font-medium",
   {
     defaultVariants: {
       size: 2,
@@ -71,7 +71,7 @@ const SegmentedControlItem = ({
     <ToggleGroup.Item
       asChild
       className={cn(
-        "rounded-full",
+        "rounded-lg",
         "px-[1ch] transition hover:bg-primary/50 data-[state=off]:cursor-pointer data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
         className,
       )}

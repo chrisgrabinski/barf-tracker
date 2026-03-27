@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button as ButtonPrimitive } from "@/primitives/button";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-[0.5ch] rounded-full px-[1ch] font-medium",
+  "inline-flex cursor-pointer items-center justify-center gap-[0.5ch] rounded-xl px-[1ch] font-medium",
   {
     defaultVariants: {
       size: "md",

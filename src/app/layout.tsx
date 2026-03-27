@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-import { FishIcon, LayoutDashboardIcon, PawPrintIcon } from "lucide-react";
+import {
+  FishIcon,
+  FrownIcon,
+  LayoutDashboardIcon,
+  PawPrintIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/app/(dashboard)/header";
@@ -29,8 +34,8 @@ export default function RootLayout({
           enableSystem
         >
           <Header />
-          <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
-            <div className="pointer-events-auto flex gap-1 rounded-full bg-background/50 bg-linear-to-t from-background/50 p-1 backdrop-blur-md backdrop-saturate-150">
+          <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-card px-4 pb-4">
+            <div className="pointer-events-auto flex gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
               <Button
                 asChild
                 className="grid flex-1 place-items-center gap-1 rounded-full bg-transparent p-2"
@@ -39,6 +44,17 @@ export default function RootLayout({
                   <LayoutDashboardIcon className="size-6" />
                   <div className="font-medium text-xs leading-none">
                     Dashboard
+                  </div>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                className="grid flex-1 place-items-center gap-1 rounded-full bg-transparent p-2"
+              >
+                <Link href="/incidents">
+                  <FrownIcon className="size-6" />
+                  <div className="font-medium text-xs leading-none">
+                    Incidents
                   </div>
                 </Link>
               </Button>
