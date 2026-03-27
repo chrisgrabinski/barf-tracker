@@ -17,8 +17,17 @@ const ThemeSwitcher = () => {
 
   return (
     <div>
-      <IconButton onClick={toggleTheme}>
-        {resolvedTheme === "light" ? <SunIcon /> : <MoonIcon />}
+      <IconButton
+        className={resolvedTheme === "light" ? "hidden" : undefined}
+        onClick={toggleTheme}
+      >
+        <SunIcon />
+      </IconButton>
+      <IconButton
+        className={resolvedTheme === "dark" ? "hidden" : undefined}
+        onClick={toggleTheme}
+      >
+        <MoonIcon />
       </IconButton>
     </div>
   );
