@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva("overflow-clip rounded-3xl p-4 text-card-foreground", {
+const cardVariants = cva("overflow-clip rounded-3xl p-6 text-card-foreground", {
   defaultVariants: {
     variant: "default",
   },

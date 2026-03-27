@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geist.className} bg-background p-3 pb-24 text-foreground`}
+        className={`${geist.className} bg-background p-6 pt-0 pb-24 text-foreground`}
       >
         <ThemeProvider
           attribute="data-theme"
@@ -37,7 +37,7 @@ export default function RootLayout({
         >
           <Header />
 
-          <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-card px-4 pb-4">
+          <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
             <div className="pointer-events-auto flex gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
               <Button
                 asChild
@@ -74,7 +74,7 @@ export default function RootLayout({
                 asChild
                 className="grid flex-1 place-items-center gap-1 rounded-full bg-transparent p-2"
               >
-                <Link href="/food">
+                <Link href="/profile">
                   <PawPrintIcon className="size-6" />
                   <div className="font-medium text-xs leading-none">
                     Profile
