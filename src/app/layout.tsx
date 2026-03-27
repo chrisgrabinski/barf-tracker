@@ -27,13 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.className} bg-background p-3 text-foreground`}>
+      <body
+        className={`${geist.className} bg-background p-3 pb-24 text-foreground`}
+      >
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"
           enableSystem
         >
           <Header />
+
           <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-card px-4 pb-4">
             <div className="pointer-events-auto flex gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
               <Button

@@ -1,10 +1,12 @@
 "use client";
 
+import { NotebookPenIcon } from "lucide-react";
 import Image from "next/image";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
+import { Textarea } from "@/components/textarea";
 
 type FormProps = {
   defaultValue?: string;
@@ -13,10 +15,18 @@ type FormProps = {
 
 export const Form = ({ defaultValue, onSubmit }: FormProps) => {
   return (
-    <Card>
-      <form className="grid gap-3" onSubmit={onSubmit}>
-        <label className="grid gap-1.5">
-          <span>Last food type</span>
+    <Card className="grid gap-4">
+      <div className="flex items-center gap-1.5 font-semibold text-xl">
+        <div className="grid size-10 place-items-center rounded-full bg-muted text-muted-foreground">
+          <NotebookPenIcon className="size-5" />
+        </div>
+        Quick log
+      </div>
+      <form className="grid gap-4" onSubmit={onSubmit}>
+        <label className="grid gap-1">
+          <span className="font-medium text-sm uppercase tracking-wide">
+            Food type
+          </span>
           <select
             className="block rounded-xl border border-border bg-input p-[1.5ch] text-foreground"
             defaultValue={defaultValue}
@@ -25,6 +35,12 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
             <option value="dry">Dry food</option>
             <option value="wet">Wet food</option>
           </select>
+        </label>
+        <label className="grid gap-1" htmlFor="notes">
+          <span className="font-medium text-sm uppercase tracking-wide">
+            Notes
+          </span>
+          <Textarea id="notes" name="notes" />
         </label>
         <Button className="group" size="lg" type="submit" variant="primary">
           <div className="grid size-[1lh] place-items-center">

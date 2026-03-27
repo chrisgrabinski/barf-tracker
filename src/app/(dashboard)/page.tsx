@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { BarfChart } from "@/app/(dashboard)/barf-chart";
 import { Form } from "@/app/(dashboard)/form";
-import { List } from "@/app/(dashboard)/list";
 
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
@@ -97,27 +96,6 @@ export default function RootPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      const { error: updateError } = await supabase
-        .from("data")
-        .update({
-          hidden: true,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", id);
-
-      if (updateError) throw updateError;
-
-      setEntries((currentEntries) =>
-        currentEntries.filter((entry) => entry.id !== id),
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete entry");
-      console.error("Error deleting entry:", err);
-    }
-  };
-
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -193,8 +171,6 @@ export default function RootPage() {
           </div>
         </WidgetRoot>
       </div>
-      <h2 className="font-medium text-2xl">History</h2>
-      <List entries={entries} onDelete={handleDelete} />
     </div>
   );
 }
