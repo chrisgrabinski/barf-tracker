@@ -28,21 +28,19 @@ const MenuItem = ({
   return (
     <Button
       asChild
-      className={cn(
-        "flex size-16 flex-col items-center justify-center gap-1 rounded-full bg-transparent",
-        isCurrentItem && "bg-primary",
-      )}
+      className="relative flex size-16 flex-col items-center justify-center gap-1 rounded-full"
     >
       <Link href={href}>
-        <Icon
-          className={cn(
-            "size-6 transition will-change-transform",
-            isCurrentItem && "scale-110",
-          )}
-        />
-        <div className="font-medium text-xs leading-none opacity-80">
+        <Icon className="relative z-10 size-6 transition will-change-transform" />
+        <div className="relative z-10 font-medium text-xs leading-none opacity-80">
           {children}
         </div>
+        <div
+          className={cn(
+            "absolute inset-0 scale-50 rounded-full bg-primary opacity-0 transition",
+            isCurrentItem && "scale-100 opacity-100",
+          )}
+        />
       </Link>
     </Button>
   );
