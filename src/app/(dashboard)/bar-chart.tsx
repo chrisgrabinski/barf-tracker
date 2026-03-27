@@ -30,8 +30,8 @@ export const BarChart = (
         }}
         labelStyle={{ color: "#a3a3a3" }}
       />
-      <Bar dataKey="wet" fill={colors.lime[600]} stackId="a" />
-      <Bar dataKey="dry" fill={colors.orange[400]} stackId="a" />
+      <Bar dataKey="wet" fill={colors.lime[500]} stackId="a" />
+      <Bar dataKey="dry" fill={colors.orange[500]} stackId="a" />
       <Legend />
     </RechartsBarChart>
   );

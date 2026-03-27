@@ -47,6 +47,8 @@ const Chart = ({ data, sentiment, start, end }: ChartProps) => {
         dot={{ display: "none" }}
         fill={`url(#${linearGradientId})`}
         stroke={color}
+        strokeLinecap="round"
+        strokeWidth={2}
         type="monotone"
       />
     </AreaChart>
