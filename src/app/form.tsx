@@ -18,7 +18,7 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
         <label className="grid gap-1.5">
           <span>Last food type</span>
           <select
-            className="block bg-neutral-800 p-[1.5ch]"
+            className="block rounded-xl border border-border bg-input p-[1.5ch] text-foreground"
             defaultValue={defaultValue}
             name="food_type"
           >

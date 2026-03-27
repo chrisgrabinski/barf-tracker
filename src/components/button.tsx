@@ -19,8 +19,8 @@ const buttonVariants = cva(
       },
       variant: {
         destructive: "bg-red-500",
-        primary: "bg-accent",
-        secondary: "bg-neutral-800",
+        primary: "bg-primary text-primary-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
         tertiary: "bg-transparent",
       },
     },

@@ -1,14 +1,14 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva("overflow-clip rounded-3xl p-4", {
+const cardVariants = cva("overflow-clip rounded-3xl p-4 text-card", {
   defaultVariants: {
     variant: "default",
   },
   variants: {
     variant: {
-      default: "bg-surface",
-      glass: "bg-surface/70 backdrop-blur-md backdrop-saturate-150",
+      default: "bg-card",
+      glass: "bg-card/70 backdrop-blur-md backdrop-saturate-150",
     },
   },
 });
