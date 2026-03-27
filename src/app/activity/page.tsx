@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { List } from "@/app/incidents/list";
+import { List } from "@/app/activity/list";
 
 import { supabase } from "@/lib/supabase";
 import type { BarfEntry } from "@/lib/types";
