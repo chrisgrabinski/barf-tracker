@@ -22,7 +22,7 @@ export const BarChart = (
 ) => {
   const { data, ...rest } = props;
   const chartData = (data ?? []) as ChartRow[];
-  const columnRadius: [number, number, number, number] = [16, 16, 0, 0];
+  const columnRadius: [number, number, number, number] = [12, 12, 0, 0];
 
   return (
     <RechartsBarChart data={data} {...rest}>

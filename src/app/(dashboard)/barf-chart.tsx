@@ -83,7 +83,7 @@ export function BarfChart({ entries }: BarfChartProps) {
             </SegmentedControlItem>
           </SegmentedControlRoot>
         </div>
-        <ResponsiveContainer className="aspect-video w-full">
+        <ResponsiveContainer className="aspect-2/1 w-full">
           {chartType === "area" ? (
             <AreaChart data={datesWithEntries} />
           ) : (
