@@ -1,12 +1,16 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText, Output } from "ai";
+import { cacheLife } from "next/cache";
+import { Suspense } from "react";
 import { z } from "zod";
 import { Card } from "@/components/card";
 import { Heading } from "@/components/heading";
 import { supabase } from "@/lib/supabase";
 
-const openrouter = createOpenRouter({
-  apiKey: process.env.OPEN_ROUTER_API_KEY,
+const reportSchema = z.object({
+  diagnosis: z.string(),
+  suggestions: z.string(),
+  summary: z.string(),
 });
 
 const getData = async () => {
@@ -17,24 +21,53 @@ const getData = async () => {
     .order("created_at", { ascending: false });
 };
 
-export default async function ReportPage() {
-  const data = await getData();
+type ReportOutput = z.infer<typeof reportSchema>;
 
-  const { output } = await generateText({
+/** Cached by Next.js; cache key includes `dataJson`, so a new LLM run only happens when tracked rows change. */
+async function getReportFromModel(dataJson: string): Promise<ReportOutput> {
+  "use cache";
+  cacheLife("max");
+
+  const openrouter = createOpenRouter({
+    apiKey: process.env.OPEN_ROUTER_API_KEY,
+  });
+
+  const result = await generateText({
     model: openrouter("anthropic/claude-sonnet-4.5"),
     output: Output.object({
-      schema: z.object({
-        diagnosis: z.string(),
-        suggestions: z.string(),
-        summary: z.string(),
-      }),
+      schema: reportSchema,
     }),
     prompt: `Our cat regurgitates frequently. We are tracking events, including information about food as well as some notes. Analyze the data, summarize it, and provide a diagnosis and tips:
     
-    ${JSON.stringify(data)}
+    ${dataJson}
     `,
     system: "",
   });
+
+  return reportSchema.parse(result.output);
+}
+
+function ReportSkeleton() {
+  return (
+    <div className="grid gap-4">
+      {[1, 2, 3].map((i) => (
+        <Card className="grid gap-2" key={i}>
+          <div className="h-6 w-32 animate-pulse rounded bg-muted" />
+          <div className="h-20 animate-pulse rounded bg-muted/70" />
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+async function ReportContent() {
+  const { data: rows, error } = await getData();
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const dataJson = JSON.stringify(rows ?? []);
+  const report = await getReportFromModel(dataJson);
 
   return (
     <div className="grid gap-4">
@@ -42,20 +75,28 @@ export default async function ReportPage() {
         <Heading level={2} size={5}>
           Summary
         </Heading>
-        <p>{output.summary}</p>
+        <p>{report.summary}</p>
       </Card>
       <Card className="grid gap-2">
         <Heading level={2} size={5}>
           Diagnosis
         </Heading>
-        <p>{output.diagnosis}</p>
+        <p>{report.diagnosis}</p>
       </Card>
       <Card className="grid gap-2">
         <Heading level={2} size={5}>
           Suggestions
         </Heading>
-        <p>{output.suggestions}</p>
+        <p>{report.suggestions}</p>
       </Card>
     </div>
+  );
+}
+
+export default function ReportPage() {
+  return (
+    <Suspense fallback={<ReportSkeleton />}>
+      <ReportContent />
+    </Suspense>
   );
 }
