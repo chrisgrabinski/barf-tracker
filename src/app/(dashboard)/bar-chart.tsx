@@ -1,38 +1,62 @@
-import {
-  Bar,
-  CartesianGrid,
-  Legend,
-  BarChart as RechartsBarChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, Cell, BarChart as RechartsBarChart, YAxis } from "recharts";
 import colors from "tailwindcss/colors";
+import { cn } from "@/lib/utils";
+
+/** Bottom-to-top stack order; last key is the top segment when present. */
+const STACK_KEYS = ["wet", "dry"] as const;
+
+type ChartRow = Record<(typeof STACK_KEYS)[number], number> & {
+  displayDate: string;
+};
+
+function topStackKey(entry: ChartRow): (typeof STACK_KEYS)[number] | null {
+  for (let i = STACK_KEYS.length - 1; i >= 0; i--) {
+    const key = STACK_KEYS[i];
+    if (entry[key] !== 0) return key;
+  }
+  return null;
+}
 
 export const BarChart = (
   props: React.ComponentProps<typeof RechartsBarChart>,
 ) => {
+  const { data, ...rest } = props;
+  const chartData = (data ?? []) as ChartRow[];
+  const columnRadius: [number, number, number, number] = [16, 16, 0, 0];
+
   return (
-    <RechartsBarChart margin={{ left: -45, right: 12, top: 15 }} {...props}>
-      <CartesianGrid stroke="#404040" strokeDasharray="4 4" />
-      <XAxis
-        dataKey="displayDate"
-        stroke="#a3a3a3"
-        style={{ fontSize: "12px" }}
-      />
-      <YAxis stroke="#a3a3a3" style={{ fontSize: "12px" }} />
-      <Tooltip
-        contentStyle={{
-          backgroundColor: "#171717",
-          border: "1px solid #404040",
-          borderRadius: "6px",
-          color: "#fff",
-        }}
-        labelStyle={{ color: "#a3a3a3" }}
-      />
-      <Bar dataKey="wet" fill={colors.lime[500]} stackId="a" />
-      <Bar dataKey="dry" fill={colors.orange[500]} stackId="a" />
-      <Legend />
+    <RechartsBarChart data={data} {...rest}>
+      <YAxis domain={[10, "dataMax"]} hide />
+      <Bar
+        dataKey="wet"
+        fill={colors.lime[500]}
+        radius={columnRadius}
+        stackId="a"
+      >
+        {chartData.map((entry) => {
+          const top = topStackKey(entry);
+          return top === "wet" ? (
+            <Cell key={`wet-${entry.displayDate}`} />
+          ) : (
+            <Cell key={`wet-${entry.displayDate}`} radius={0} />
+          );
+        })}
+      </Bar>
+      <Bar
+        dataKey="dry"
+        fill={colors.orange[500]}
+        radius={columnRadius}
+        stackId="a"
+      >
+        {chartData.map((entry) => {
+          const top = topStackKey(entry);
+          return top === "dry" ? (
+            <Cell key={`dry-${entry.displayDate}`} />
+          ) : (
+            <Cell key={`dry-${entry.displayDate}`} radius={0} />
+          );
+        })}
+      </Bar>
     </RechartsBarChart>
   );
 };
