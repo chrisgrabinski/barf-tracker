@@ -1,70 +1,21 @@
-"use client";
+import { RegurgitationEvent } from "@/app/events/regurgitation-event";
 
-import { useCallback, useEffect, useState } from "react";
+import { getEvents } from "@/lib/database";
 
-import { List } from "@/app/events/list";
+export default async function EventsPage() {
+  const { data: regurgitationEvents } = await getEvents();
 
-import { supabase } from "@/lib/supabase";
-import type { BarfEntry } from "@/lib/types";
-
-export default function RootPage() {
-  const [entries, setEntries] = useState<BarfEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchEntries = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const { data, error: fetchError } = await supabase
-        .from("data")
-        .select("*, food ( *, type ( * ) )")
-        .not("hidden", "is", true)
-        .order("created_at", { ascending: false });
-
-      if (fetchError) throw fetchError;
-
-      setEntries(data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch entries");
-      console.error("Error fetching entries:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
-
-  const handleDelete = async (id: number) => {
-    try {
-      const { error: updateError } = await supabase
-        .from("data")
-        .update({
-          hidden: true,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", id);
-
-      if (updateError) throw updateError;
-
-      setEntries((currentEntries) =>
-        currentEntries.filter((entry) => entry.id !== id),
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete entry");
-      console.error("Error deleting entry:", err);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
+  if (!regurgitationEvents) {
+    return null;
   }
 
-  return <List entries={entries} onDelete={handleDelete} />;
+  return (
+    <ul className="grid gap-4">
+      {regurgitationEvents.map((event) => (
+        <li key={event.slug}>
+          <RegurgitationEvent slug={event.slug} />
+        </li>
+      ))}
+    </ul>
+  );
 }
