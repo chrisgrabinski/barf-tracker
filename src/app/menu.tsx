@@ -55,8 +55,8 @@ const Menu = () => {
       <MenuItem href="/" icon={LayoutDashboardIcon}>
         Home
       </MenuItem>
-      <MenuItem href="/activity" icon={ActivityIcon}>
-        Activity
+      <MenuItem href="/events" icon={ActivityIcon}>
+        Events
       </MenuItem>
       <MenuItem href="/food" icon={FishIcon}>
         Food
