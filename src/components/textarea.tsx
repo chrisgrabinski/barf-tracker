@@ -1,7 +1,12 @@
-export const Textarea = ({ ...props }: React.ComponentProps<"textarea">) => {
+import { cn } from "@/lib/utils";
+
+export const Textarea = ({
+  className,
+  ...props
+}: React.ComponentProps<"textarea">) => {
   return (
     <textarea
-      className="field-sizing block min-h-[3lh] resize-none rounded-lg border border-border bg-input p-3"
+      className={cn("field-sizing block min-h-[3lh] resize-none", className)}
       rows={3}
       {...props}
     />

@@ -67,7 +67,7 @@
   --secondary: var(--color-violet-950);
   --secondary-foreground: var(--color-violet-400);
 
-  --input: var(--color-n-900);
+  --input: var(--color-neutral-800);
 
   --border: var(--color-neutral-600);
 }
