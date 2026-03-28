@@ -35,7 +35,7 @@ export default function RootLayout({
                 <Menu />
               </div>
             </nav>
-            <main className="container mx-auto grid grow gap-6">
+            <main className="container mx-auto flex grow flex-col gap-6">
               {children}
             </main>
           </div>
