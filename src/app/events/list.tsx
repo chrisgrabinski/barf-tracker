@@ -35,7 +35,7 @@ export const List = ({ entries, onDelete }: ListProps) => {
                   <ForkKnifeIcon className="size-4" />
                   <span className="font-medium">Food:</span>
                   <span>
-                    {entry.food.name} · {entry.food.type.name}
+                    {entry?.food?.name} · {entry?.food?.type.name}
                   </span>
                 </div>
                 {entry.notes && <div className="text-lg">{entry.notes}</div>}
