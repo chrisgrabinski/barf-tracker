@@ -34,8 +34,6 @@ const getFood = async () => {
 export default async function FoodPage() {
   const { data: food } = await getFood();
 
-  console.log(food);
-
   return (
     <div className="grid gap-4">
       {food?.map((foodItem) => (
