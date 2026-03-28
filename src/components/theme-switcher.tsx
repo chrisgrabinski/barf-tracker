@@ -33,14 +33,14 @@ const ThemeSwitcher = () => {
         onClick={toggleTheme}
         variant="tertiary"
       >
-        <SunIcon />
+        <MoonIcon />
       </IconButton>
       <IconButton
         className={cn(resolvedTheme === "dark" && "hidden")}
         onClick={toggleTheme}
         variant="tertiary"
       >
-        <MoonIcon />
+        <SunIcon />
       </IconButton>
     </div>
   );
