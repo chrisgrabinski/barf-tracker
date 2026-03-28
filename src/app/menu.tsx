@@ -28,10 +28,10 @@ const MenuItem = ({
   return (
     <Button
       asChild
-      className="relative flex size-16 flex-col items-center justify-center gap-1 rounded-full"
+      className="relative flex size-15 flex-col items-center justify-center gap-1 rounded-full"
     >
       <Link href={href}>
-        <Icon className="relative z-10 size-6 transition will-change-transform" />
+        <Icon className="relative z-10 size-5 transition will-change-transform" />
         <div className="relative z-10 font-medium text-xs leading-none opacity-80">
           {children}
         </div>

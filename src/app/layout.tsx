@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geist.className} bg-background p-4 pt-0 pb-28 text-foreground`}
+        className={`${geist.className} bg-background p-4 pt-0 pb-25 text-foreground`}
       >
         <ThemeProvider
           attribute="data-theme"
