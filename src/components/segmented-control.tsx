@@ -2,6 +2,7 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { ToggleGroup } from "radix-ui";
+import { Interactive } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 import { Button } from "@/primitives/button";
 
@@ -68,17 +69,19 @@ const SegmentedControlItem = ({
   ...props
 }: SegmentedControlItemProps) => {
   return (
-    <ToggleGroup.Item
-      asChild
-      className={cn(
-        "rounded-lg",
-        "px-[1ch] transition hover:bg-primary/50 data-[state=off]:cursor-pointer data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
-        className,
-      )}
-      {...props}
-    >
-      <Button asChild={asChild}>{children}</Button>
-    </ToggleGroup.Item>
+    <Interactive>
+      <ToggleGroup.Item
+        asChild
+        className={cn(
+          "rounded-lg",
+          "px-[1ch] transition hover:bg-primary/50 data-[state=off]:cursor-pointer data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
+          className,
+        )}
+        {...props}
+      >
+        <Button asChild={asChild}>{children}</Button>
+      </ToggleGroup.Item>
+    </Interactive>
   );
 };
 
