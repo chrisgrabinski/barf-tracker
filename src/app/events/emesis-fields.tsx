@@ -29,7 +29,7 @@ const EmesisEventFormFields = async ({
       <FieldRoot name="food">
         <FieldLabel>Food</FieldLabel>
         <FieldInput asChild defaultValue={food}>
-          <select>
+          <select className="appearance-none">
             {foods?.map((food) => (
               <option key={food.slug} value={food.slug}>
                 {food.name}
