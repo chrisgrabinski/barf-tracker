@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 import { Interactive } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 import { Button } from "@/primitives/button";
@@ -59,23 +60,25 @@ const MenuItem = ({
 
 const Menu = () => {
   return (
-    <nav className="pointer-events-auto flex w-full max-w-lg rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
-      <MenuItem href="/" icon={LayoutDashboardIcon}>
-        Home
-      </MenuItem>
-      <MenuItem href="/report" icon={WandSparkles}>
-        Report
-      </MenuItem>
-      <MenuItem href="/events" icon={ActivityIcon}>
-        Events
-      </MenuItem>
-      <MenuItem href="/food" icon={ForkKnifeIcon}>
-        Food
-      </MenuItem>
-      <MenuItem href="/profile" icon={PawPrintIcon}>
-        Profile
-      </MenuItem>
-    </nav>
+    <Suspense fallback={<>Loading...</>}>
+      <nav className="pointer-events-auto flex w-full max-w-lg rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
+        <MenuItem href="/" icon={LayoutDashboardIcon}>
+          Home
+        </MenuItem>
+        <MenuItem href="/report" icon={WandSparkles}>
+          Report
+        </MenuItem>
+        <MenuItem href="/events" icon={ActivityIcon}>
+          Events
+        </MenuItem>
+        <MenuItem href="/food" icon={ForkKnifeIcon}>
+          Food
+        </MenuItem>
+        <MenuItem href="/profile" icon={PawPrintIcon}>
+          Profile
+        </MenuItem>
+      </nav>
+    </Suspense>
   );
 };
 

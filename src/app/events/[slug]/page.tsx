@@ -1,16 +1,13 @@
 import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { DeleteRegurgitationEvent } from "@/app/events/[slug]/delete-event";
 import { Card } from "@/components/card";
 import { IconButton } from "@/components/icon-button";
 import { getRegurgitationEvent } from "@/lib/database";
 
-export default async function EventPage({
-  params,
-}: PageProps<"/events/[slug]">) {
-  const { slug } = await params;
-
+const Content = async ({ slug }: { slug: string }) => {
   const { data } = await getRegurgitationEvent(slug);
 
   if (!data) {
@@ -33,5 +30,17 @@ export default async function EventPage({
       {data.notes && <Card>{data.notes}</Card>}
       <DeleteRegurgitationEvent slug={slug} />
     </article>
+  );
+};
+
+export default async function EventPage({
+  params,
+}: PageProps<"/events/[slug]">) {
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      {params.then(({ slug }) => (
+        <Content slug={slug} />
+      ))}
+    </Suspense>
   );
 }
