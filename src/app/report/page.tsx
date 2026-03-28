@@ -1,17 +1,61 @@
-import { WandSparklesIcon } from "lucide-react";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { generateText, Output } from "ai";
+import { z } from "zod";
 import { Card } from "@/components/card";
+import { Heading } from "@/components/heading";
+import { supabase } from "@/lib/supabase";
 
-export default function ReportPage() {
+const openrouter = createOpenRouter({
+  apiKey: process.env.OPEN_ROUTER_API_KEY,
+});
+
+const getData = async () => {
+  return supabase
+    .from("data")
+    .select("*, food ( *, type ( * ) )")
+    .not("hidden", "is", true)
+    .order("created_at", { ascending: false });
+};
+
+export default async function ReportPage() {
+  const data = await getData();
+
+  const { output } = await generateText({
+    model: openrouter("anthropic/claude-sonnet-4.5"),
+    output: Output.object({
+      schema: z.object({
+        diagnosis: z.string(),
+        suggestions: z.string(),
+        summary: z.string(),
+      }),
+    }),
+    prompt: `Our cat regurgitates frequently. We are tracking events, including information about food as well as some notes. Analyze the data, summarize it, and provide a diagnosis and tips:
+    
+    ${JSON.stringify(data)}
+    `,
+    system: "",
+  });
+
   return (
-    <Card className="flex grow flex-col items-center justify-center gap-2 text-center">
-      <div className="grid size-12 place-items-center rounded-lg bg-muted text-muted-foreground">
-        <WandSparklesIcon />
-      </div>
-      <p className="font-medium text-xl">Coming soon...</p>
-      <p className="text-balance text-muted-foreground">
-        You will soon be able to get an up-to-date report of recent events right
-        in the app.
-      </p>
-    </Card>
+    <div className="grid gap-4">
+      <Card className="grid gap-2">
+        <Heading level={2} size={5}>
+          Summary
+        </Heading>
+        <p>{output.summary}</p>
+      </Card>
+      <Card className="grid gap-2">
+        <Heading level={2} size={5}>
+          Diagnosis
+        </Heading>
+        <p>{output.diagnosis}</p>
+      </Card>
+      <Card className="grid gap-2">
+        <Heading level={2} size={5}>
+          Suggestions
+        </Heading>
+        <p>{output.suggestions}</p>
+      </Card>
+    </div>
   );
 }
