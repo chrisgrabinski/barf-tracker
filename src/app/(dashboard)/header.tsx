@@ -1,5 +1,8 @@
+import { SettingsIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import grinningCatEmoji from "@/assets/grinning-cat_1f63a.gif";
+import { IconButton } from "@/components/icon-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export const Header = () => {
@@ -9,7 +12,14 @@ export const Header = () => {
         <Image alt="" height={28} src={grinningCatEmoji} width={28} />
         <h1 className="font-semibold text-lg">Catsup</h1>
       </div>
-      <ThemeSwitcher />
+      <div className="flex items-center gap-2">
+        <ThemeSwitcher />
+        <IconButton asChild variant="tertiary">
+          <Link href="/settings">
+            <SettingsIcon />
+          </Link>
+        </IconButton>
+      </div>
     </header>
   );
 };
