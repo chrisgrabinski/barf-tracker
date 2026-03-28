@@ -34,7 +34,7 @@ const MenuItem = ({
       <Button
         asChild
         className={cn(
-          "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full transition hover:bg-primary/25",
+          "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 overflow-clip rounded-full transition hover:bg-primary/25",
           isCurrentItem && "text-primary-foreground",
         )}
       >
@@ -48,8 +48,8 @@ const MenuItem = ({
           </div>
           <div
             className={cn(
-              "absolute inset-0 scale-50 rounded-full bg-primary opacity-0 transition",
-              isCurrentItem && "scale-100 opacity-100",
+              "absolute inset-0 scale-50 rounded-full bg-primary opacity-0 blur-xl transition duration-75",
+              isCurrentItem && "scale-100 opacity-100 blur-none",
             )}
           />
         </Link>
