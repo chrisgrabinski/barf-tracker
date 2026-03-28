@@ -12,7 +12,7 @@ const geist = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Barf Tracker",
+  title: "Catsup",
 };
 
 export default function RootLayout({
