@@ -28,10 +28,10 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <div className="flex min-h-dvh flex-col px-4 pt-0 pb-24">
+          <div className="flex min-h-dvh flex-col px-4">
             <Header />
-            <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
-              <div className="pointer-events-auto flex w-full max-w-md rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
+            <nav className="pointer-events-none sticky bottom-0 z-50 order-last flex justify-center bg-linear-to-t from-background py-4">
+              <div className="pointer-events-auto flex w-full rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
                 <Menu />
               </div>
             </nav>

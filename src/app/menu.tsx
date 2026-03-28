@@ -31,7 +31,10 @@ const MenuItem = ({
     <Interactive>
       <Button
         asChild
-        className="relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full"
+        className={cn(
+          "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full",
+          isCurrentItem && "text-primary-foreground",
+        )}
       >
         <Link href={href}>
           <Icon className="relative z-10 size-5 transition will-change-transform" />
