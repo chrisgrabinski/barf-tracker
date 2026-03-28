@@ -34,7 +34,7 @@ const MenuItem = ({
       <Button
         asChild
         className={cn(
-          "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full",
+          "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full transition hover:bg-primary/25",
           isCurrentItem && "text-primary-foreground",
         )}
       >
@@ -61,7 +61,7 @@ const MenuItem = ({
 const Menu = () => {
   return (
     <Suspense fallback={<>Loading...</>}>
-      <nav className="pointer-events-auto flex w-full max-w-lg rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
+      <nav className="pointer-events-auto flex w-full max-w-lg gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
         <MenuItem href="/" icon={LayoutDashboardIcon}>
           Home
         </MenuItem>
