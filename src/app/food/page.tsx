@@ -3,7 +3,7 @@ import { Card } from "@/components/card";
 
 export default function RootPage() {
   return (
-    <Card className="flex flex-col items-center justify-center gap-2 text-center">
+    <Card className="flex grow flex-col items-center justify-center gap-2 text-center">
       <div className="grid size-12 place-items-center rounded-lg bg-muted text-muted-foreground">
         <FishIcon />
       </div>
