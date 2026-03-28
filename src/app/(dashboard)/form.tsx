@@ -1,5 +1,5 @@
 import { NotebookPenIcon } from "lucide-react";
-import { revalidateTag } from "next/cache";
+
 import Image from "next/image";
 import { EmesisEventFormFields } from "@/app/events/emesis-fields";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
@@ -7,27 +7,13 @@ import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { FormContent, FormRoot } from "@/components/form";
-import { supabase } from "@/lib/supabase";
+import { createEmesisEvent } from "@/lib/events";
 
 type QuickLogFormProps = {
   defaultValue?: string;
 };
 
 const QuickLogForm = ({ defaultValue }: QuickLogFormProps) => {
-  const createEmesisEvent = async (formData: FormData) => {
-    "use server";
-
-    const food = formData.get("food");
-    const notes = formData.get("notes");
-
-    await supabase.from("data").insert({
-      food: typeof food === "string" ? food || null : null,
-      notes: typeof notes === "string" ? notes || null : null,
-    });
-
-    revalidateTag("regurgitations", "max");
-  };
-
   return (
     <Card className="grid gap-4">
       <div className="flex items-center gap-1.5 font-semibold text-xl">
