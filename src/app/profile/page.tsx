@@ -2,7 +2,7 @@ import { differenceInMonths } from "date-fns";
 import { CakeIcon, WeightIcon } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/card";
-import { Heading } from "@/components/heading";
+
 import mitsyProfile from "../../../public/mitsy-profile.jpg";
 
 const birthDate = new Date("2016-08-18");
@@ -13,9 +13,6 @@ const age = (differenceInMonths(now, birthDate, {}) / 12).toFixed(1);
 export default function ProfilePage() {
   return (
     <div className="grid gap-4">
-      <Heading level={1} size={6}>
-        Profile
-      </Heading>
       <Card className="flex items-center gap-6">
         <div className="size-32 overflow-clip rounded-full">
           <Image alt="" src={mitsyProfile} />
