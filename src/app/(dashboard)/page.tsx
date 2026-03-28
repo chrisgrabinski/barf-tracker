@@ -1,7 +1,7 @@
 import { format, isSameDay, subDays } from "date-fns";
 
 import { BarfChart } from "@/app/(dashboard)/barf-chart";
-import { Form } from "@/app/(dashboard)/form";
+import { QuickLogForm } from "@/app/(dashboard)/form";
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
 import { getEvents } from "@/lib/database";
@@ -41,7 +41,7 @@ export default async function RootPage() {
 
   return (
     <div className="grid gap-4">
-      <Form defaultValue={defaultFood} />
+      <QuickLogForm defaultValue={defaultFood} />
       <h2 className="font-medium text-2xl">Weekly overview</h2>
       <BarfChart entries={entries} />
       <h2 className="font-medium text-2xl">Stats</h2>

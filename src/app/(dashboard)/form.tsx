@@ -8,20 +8,17 @@ import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
-import {
-  FormFieldInput,
-  FormFieldLabel,
-  FormFieldRoot,
-} from "@/components/form-field";
+import { FieldInput, FieldLabel, FieldRoot } from "@/components/field";
+import { FormContent, FormRoot } from "@/components/form";
 import { Textarea } from "@/components/textarea";
 import { supabase } from "@/lib/supabase";
 import type { Food } from "@/lib/types";
 
-type FormProps = {
+type QuickLogFormProps = {
   defaultValue?: string;
 };
 
-export const Form = ({ defaultValue }: FormProps) => {
+const QuickLogForm = ({ defaultValue }: QuickLogFormProps) => {
   const [food, setFood] = useState<Food[]>([]);
 
   const fetchFood = useCallback(async () => {
@@ -69,45 +66,51 @@ export const Form = ({ defaultValue }: FormProps) => {
         </div>
         Quick log
       </div>
-      <form className="grid gap-4" onSubmit={handleSubmit}>
-        <FormFieldRoot name="food">
-          <FormFieldLabel>Food type</FormFieldLabel>
-          <FormFieldInput asChild>
-            <select defaultValue={defaultValue}>
-              {food.map((foodItem) => (
-                <option key={foodItem.slug} value={foodItem.slug}>
-                  {foodItem.name}
-                </option>
-              ))}
-            </select>
-          </FormFieldInput>
-        </FormFieldRoot>
-        <FormFieldRoot name="notes">
-          <FormFieldLabel>Notes</FormFieldLabel>
-          <FormFieldInput asChild>
-            <Textarea />
-          </FormFieldInput>
-        </FormFieldRoot>
-        <Button className="group" size="lg" type="submit" variant="primary">
-          <div className="grid size-[1lh] place-items-center">
-            <Image
-              alt=""
-              className="col-start-1 row-start-1 size-full transition-opacity group-hover:opacity-0"
-              height={64}
-              src={nauseatedFaceEmoji}
-              width={64}
-            />
-            <Image
-              alt=""
-              className="col-start-1 row-start-1 size-full opacity-0 transition-opacity group-hover:opacity-100"
-              height={64}
-              src={vomitingFaceEmoji}
-              width={64}
-            />
-          </div>
-          Barf!
-        </Button>
-      </form>
+      <FormRoot onSubmit={handleSubmit}>
+        <FormContent>
+          <FieldRoot name="food">
+            <FieldLabel>Food type</FieldLabel>
+            <FieldInput asChild>
+              <select defaultValue={defaultValue}>
+                {food.map((foodItem) => (
+                  <option key={foodItem.slug} value={foodItem.slug}>
+                    {foodItem.name}
+                  </option>
+                ))}
+              </select>
+            </FieldInput>
+          </FieldRoot>
+          <FieldRoot name="notes">
+            <FieldLabel>Notes</FieldLabel>
+            <FieldInput asChild>
+              <Textarea />
+            </FieldInput>
+          </FieldRoot>
+        </FormContent>
+        <FormContent>
+          <Button className="group" size="lg" type="submit" variant="primary">
+            <div className="grid size-[1lh] place-items-center">
+              <Image
+                alt=""
+                className="col-start-1 row-start-1 size-full transition-opacity group-hover:opacity-0"
+                height={64}
+                src={nauseatedFaceEmoji}
+                width={64}
+              />
+              <Image
+                alt=""
+                className="col-start-1 row-start-1 size-full opacity-0 transition-opacity group-hover:opacity-100"
+                height={64}
+                src={vomitingFaceEmoji}
+                width={64}
+              />
+            </div>
+            Barf!
+          </Button>
+        </FormContent>
+      </FormRoot>
     </Card>
   );
 };
+
+export { QuickLogForm };

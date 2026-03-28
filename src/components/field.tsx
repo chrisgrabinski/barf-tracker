@@ -6,58 +6,47 @@ import { createContext, useContext, useId } from "react";
 import { Interactive } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 
-type FormFieldContextProps = {
+type FieldContextProps = {
   descriptionId: string;
   inputId: string;
   labelId: string;
   name: string;
 };
 
-const FormFieldContext = createContext<FormFieldContextProps | null>(null);
+const FieldContext = createContext<FieldContextProps | null>(null);
 
-const useFormFieldContext = () => {
-  const context = useContext(FormFieldContext);
+const useFieldContext = () => {
+  const context = useContext(FieldContext);
 
   if (!context) {
-    throw new Error("useFormFieldContext must be used within FormFieldContext");
+    throw new Error("useFieldContext must be used within FieldContext");
   }
 
   return context;
 };
 
-interface FormFieldRootProps extends React.ComponentProps<"div"> {
+interface FieldRootProps extends React.ComponentProps<"div"> {
   name: string;
 }
 
-const FormFieldRoot = ({
-  children,
-  className,
-  name,
-  ...props
-}: FormFieldRootProps) => {
+const FieldRoot = ({ children, className, name, ...props }: FieldRootProps) => {
   const descriptionId = useId();
   const inputId = useId();
   const labelId = useId();
 
   return (
-    <FormFieldContext.Provider
-      value={{ descriptionId, inputId, labelId, name }}
-    >
+    <FieldContext.Provider value={{ descriptionId, inputId, labelId, name }}>
       <div className={cn("grid gap-2", className)} {...props}>
         {children}
       </div>
-    </FormFieldContext.Provider>
+    </FieldContext.Provider>
   );
 };
 
-type FormFieldLabelProps = React.ComponentProps<"label">;
+type FieldLabelProps = React.ComponentProps<"label">;
 
-const FormFieldLabel = ({
-  children,
-  className,
-  ...props
-}: FormFieldLabelProps) => {
-  const { labelId, inputId } = useFormFieldContext();
+const FieldLabel = ({ children, className, ...props }: FieldLabelProps) => {
+  const { labelId, inputId } = useFieldContext();
 
   return (
     <label
@@ -71,17 +60,17 @@ const FormFieldLabel = ({
   );
 };
 
-interface FormFieldInputProps extends React.ComponentProps<"input"> {
+interface FieldInputProps extends React.ComponentProps<"input"> {
   asChild?: boolean;
 }
 
-const FormFieldInput = ({
+const FieldInput = ({
   asChild,
   children,
   className,
   ...props
-}: FormFieldInputProps) => {
-  const { inputId, descriptionId, name } = useFormFieldContext();
+}: FieldInputProps) => {
+  const { inputId, descriptionId, name } = useFieldContext();
 
   const Component = asChild ? Slot.Slot : "input";
 
@@ -100,14 +89,14 @@ const FormFieldInput = ({
   );
 };
 
-type FormFieldDescriptionProps = React.ComponentProps<"div">;
+type FieldDescriptionProps = React.ComponentProps<"div">;
 
-const FormFieldDescription = ({
+const FieldDescription = ({
   children,
   className,
   ...props
-}: FormFieldDescriptionProps) => {
-  const { descriptionId } = useFormFieldContext();
+}: FieldDescriptionProps) => {
+  const { descriptionId } = useFieldContext();
 
   return (
     <div
@@ -120,4 +109,4 @@ const FormFieldDescription = ({
   );
 };
 
-export { FormFieldRoot, FormFieldLabel, FormFieldInput, FormFieldDescription };
+export { FieldRoot, FieldLabel, FieldInput, FieldDescription };
