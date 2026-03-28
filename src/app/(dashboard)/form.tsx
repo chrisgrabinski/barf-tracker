@@ -2,17 +2,19 @@
 
 import { NotebookPenIcon } from "lucide-react";
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import {
-  FormFieldDescription,
   FormFieldInput,
   FormFieldLabel,
   FormFieldRoot,
 } from "@/components/form-field";
 import { Textarea } from "@/components/textarea";
+import { supabase } from "@/lib/supabase";
+import type { Food } from "@/lib/types";
 
 type FormProps = {
   defaultValue?: string;
@@ -20,6 +22,31 @@ type FormProps = {
 };
 
 export const Form = ({ defaultValue, onSubmit }: FormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [food, setFood] = useState<Food[]>([]);
+
+  const fetchFood = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const { data, error: fetchError } = await supabase
+        .from("food")
+        .select("*");
+
+      if (fetchError) throw fetchError;
+
+      setFood(data || []);
+    } catch (err) {
+      console.error("Error fetching food:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchFood();
+  }, [fetchFood]);
+
   return (
     <Card className="grid gap-4">
       <div className="flex items-center gap-1.5 font-semibold text-xl">
@@ -29,12 +56,15 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
         Quick log
       </div>
       <form className="grid gap-4" onSubmit={onSubmit}>
-        <FormFieldRoot name="food_type">
+        <FormFieldRoot name="food">
           <FormFieldLabel>Food type</FormFieldLabel>
           <FormFieldInput asChild>
             <select defaultValue={defaultValue}>
-              <option value="dry">Dry food</option>
-              <option value="wet">Wet food</option>
+              {food.map((foodItem) => (
+                <option key={foodItem.slug} value={foodItem.slug}>
+                  {foodItem.name}
+                </option>
+              ))}
             </select>
           </FormFieldInput>
         </FormFieldRoot>

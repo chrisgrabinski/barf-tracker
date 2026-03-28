@@ -54,8 +54,10 @@ export function BarfChart({ entries }: BarfChartProps) {
         weekStartDate,
         "MMM d",
       )} - ${format(weekEndDate, "MMM d")}`,
-      dry: entriesForWeek.filter((entry) => entry.food_type === "dry").length,
-      wet: entriesForWeek.filter((entry) => entry.food_type === "wet").length,
+      dry: entriesForWeek.filter((entry) => entry.food.type.name === "Dry")
+        .length,
+      wet: entriesForWeek.filter((entry) => entry.food.type.name === "Wet")
+        .length,
     };
   });
 

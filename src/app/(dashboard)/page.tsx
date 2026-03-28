@@ -37,7 +37,7 @@ export default function RootPage() {
       setError(null);
       const { data, error: fetchError } = await supabase
         .from("data")
-        .select("*")
+        .select("*, food ( *, type ( * ) )")
         .not("hidden", "is", true)
         .order("created_at", { ascending: false });
 
@@ -59,29 +59,13 @@ export default function RootPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const foodType = formData.get("food_type") as string;
+    const foodType = formData.get("food") as string;
     const notes = formData.get("notes") as string;
 
     try {
-      // Add food type to database (upsert to avoid duplicates)
-      if (foodType) {
-        const { error: foodTypeError } = await supabase
-          .from("food_types")
-          .upsert(
-            { name: foodType },
-            { ignoreDuplicates: false, onConflict: "name" },
-          );
-
-        if (foodTypeError) {
-          // If food_types table doesn't exist, continue anyway
-          console.warn("Could not upsert food type:", foodTypeError);
-        }
-      }
-
-      // Create new entry with food_type
       const { data, error: insertError } = await supabase
         .from("data")
-        .insert([{ food_type: foodType || null, notes: notes || null }])
+        .insert([{ food: foodType || null, notes: notes || null }])
         .select()
         .single();
 
@@ -121,7 +105,7 @@ export default function RootPage() {
         </div>
       )}
       <Form
-        defaultValue={entries[0]?.food_type || undefined}
+        defaultValue={entries[0]?.food.slug || undefined}
         onSubmit={handleSubmit}
       />
       <h2 className="font-medium text-2xl">Weekly overview</h2>
@@ -146,7 +130,7 @@ export default function RootPage() {
                 className="h-8 rounded-sm bg-green-500"
                 style={{
                   width: `${
-                    (entries.filter((entry) => entry.food_type === "wet")
+                    (entries.filter((entry) => entry.food.type.name === "Wet")
                       .length /
                       entries.length) *
                     100
@@ -160,7 +144,7 @@ export default function RootPage() {
                 className="h-8 rounded-sm bg-orange-500"
                 style={{
                   width: `${
-                    (entries.filter((entry) => entry.food_type === "dry")
+                    (entries.filter((entry) => entry.food.type.name === "Dry")
                       .length /
                       entries.length) *
                     100
