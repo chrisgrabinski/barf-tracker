@@ -44,3 +44,25 @@ export const getCurrentWeight = async () => {
 
   return supabase.from("weight").select("value").single();
 };
+
+export const getFoods = async () => {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("foods");
+
+  return supabase.from("food").select("*, type ( * )");
+};
+
+export const getFoodItem = async (slug: string) => {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("foods");
+
+  return supabase
+    .from("food")
+    .select("*, type ( * )")
+    .eq("slug", slug)
+    .single();
+};

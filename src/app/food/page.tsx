@@ -1,8 +1,7 @@
 import { ForkKnifeIcon } from "lucide-react";
-import { cacheLife } from "next/cache";
 import { Card } from "@/components/card";
 
-import { supabase } from "@/lib/supabase";
+import { getFoods } from "@/lib/database";
 
 type FoodProductProps = {
   name: string;
@@ -23,16 +22,8 @@ const FoodProduct = ({ name, type }: FoodProductProps) => {
   );
 };
 
-const getFood = async () => {
-  "use cache";
-
-  cacheLife("hours");
-
-  return supabase.from("food").select("*, type( * )").order("name");
-};
-
 export default async function FoodPage() {
-  const { data: food } = await getFood();
+  const { data: food } = await getFoods();
 
   return (
     <div className="grid gap-4">
