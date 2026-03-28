@@ -71,7 +71,7 @@ const QuickLogForm = ({ defaultValue }: QuickLogFormProps) => {
           <FieldRoot name="food">
             <FieldLabel>Food type</FieldLabel>
             <FieldInput asChild>
-              <select defaultValue={defaultValue}>
+              <select className="appearance-none" defaultValue={defaultValue}>
                 {food.map((foodItem) => (
                   <option key={foodItem.slug} value={foodItem.slug}>
                     {foodItem.name}

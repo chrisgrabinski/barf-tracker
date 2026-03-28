@@ -20,7 +20,11 @@ const DeleteRegurgitationEvent = ({ slug }: { slug: string }) => {
     }
   };
 
-  return <Button onClick={handleDelete}>Delete</Button>;
+  return (
+    <Button onClick={handleDelete} variant="destructive">
+      Delete
+    </Button>
+  );
 };
 
 export { DeleteRegurgitationEvent };

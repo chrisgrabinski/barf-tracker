@@ -50,7 +50,7 @@ const FieldLabel = ({ children, className, ...props }: FieldLabelProps) => {
 
   return (
     <label
-      className={cn("text-sm uppercase tracking-wide", className)}
+      className={cn("px-4 text-sm uppercase tracking-wide", className)}
       htmlFor={inputId}
       id={labelId}
       {...props}
@@ -78,7 +78,7 @@ const FieldInput = ({
     <Interactive>
       <Component
         aria-describedby={descriptionId}
-        className={cn("block h-12 rounded-lg bg-input p-2", className)}
+        className={cn("block rounded-lg bg-input p-4", className)}
         id={inputId}
         name={name}
         {...props}
