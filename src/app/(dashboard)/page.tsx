@@ -1,10 +1,10 @@
 import { format, isSameDay, subDays } from "date-fns";
-import { cacheLife } from "next/cache";
+
 import { BarfChart } from "@/app/(dashboard)/barf-chart";
 import { Form } from "@/app/(dashboard)/form";
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
-import { supabase } from "@/lib/supabase";
+import { getEvents } from "@/lib/database";
 
 const today = new Date();
 
@@ -21,20 +21,8 @@ const getDays = (count: number) => {
   ];
 };
 
-const getEntries = async () => {
-  "use cache";
-
-  cacheLife("hours");
-
-  return supabase
-    .from("data")
-    .select("*, food ( *, type ( * ) )")
-    .not("hidden", "is", true)
-    .order("created_at", { ascending: false });
-};
-
 export default async function RootPage() {
-  const { data: entries } = await getEntries();
+  const { data: entries } = await getEvents();
 
   if (!entries?.length) {
     return null;

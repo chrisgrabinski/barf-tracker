@@ -1,9 +1,9 @@
 import { differenceInMonths } from "date-fns";
 import { CakeIcon, WeightIcon } from "lucide-react";
-import { cacheLife } from "next/cache";
+
 import Image from "next/image";
 import { Card } from "@/components/card";
-import { supabase } from "@/lib/supabase";
+import { getCurrentWeight } from "@/lib/database";
 import mitsyProfile from "../../../public/mitsy-profile.jpg";
 
 const birthDate = new Date("2016-08-18");
@@ -15,16 +15,8 @@ const getDisplayWeight = (value: number) => {
   return (value / 1000).toFixed(1);
 };
 
-const getWeight = async () => {
-  "use cache";
-
-  cacheLife("hours");
-
-  return supabase.from("weight").select("value").single();
-};
-
 export default async function ProfilePage() {
-  const { data: weight } = await getWeight();
+  const { data: weight } = await getCurrentWeight();
 
   return (
     <div className="grid gap-4">

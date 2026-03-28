@@ -1,11 +1,12 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText, Output } from "ai";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Suspense } from "react";
 import { z } from "zod";
 import { Card } from "@/components/card";
 import { Heading } from "@/components/heading";
-import { supabase } from "@/lib/supabase";
+
+import { getEvents } from "@/lib/database";
 
 const reportSchema = z.object({
   diagnosis: z.string(),
@@ -13,20 +14,13 @@ const reportSchema = z.object({
   summary: z.string(),
 });
 
-const getData = async () => {
-  return supabase
-    .from("data")
-    .select("*, food ( *, type ( * ) )")
-    .not("hidden", "is", true)
-    .order("created_at", { ascending: false });
-};
-
 type ReportOutput = z.infer<typeof reportSchema>;
 
 /** Cached by Next.js; cache key includes `dataJson`, so a new LLM run only happens when tracked rows change. */
 async function getReportFromModel(dataJson: string): Promise<ReportOutput> {
   "use cache";
   cacheLife("max");
+  cacheTag("report");
 
   const openrouter = createOpenRouter({
     apiKey: process.env.OPEN_ROUTER_API_KEY,
@@ -61,7 +55,7 @@ function ReportSkeleton() {
 }
 
 async function ReportContent() {
-  const { data: rows, error } = await getData();
+  const { data: rows, error } = await getEvents();
   if (error) {
     throw new Error(error.message);
   }
