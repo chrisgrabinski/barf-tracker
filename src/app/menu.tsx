@@ -6,6 +6,7 @@ import {
   LayoutDashboardIcon,
   type LucideIcon,
   PawPrintIcon,
+  WandSparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -30,7 +31,7 @@ const MenuItem = ({
     <Interactive>
       <Button
         asChild
-        className="relative flex size-15 flex-col items-center justify-center gap-1 rounded-full"
+        className="relative flex h-14 flex-1 flex-col items-center justify-center gap-1 rounded-full"
       >
         <Link href={href}>
           <Icon className="relative z-10 size-5 transition will-change-transform" />
@@ -54,6 +55,9 @@ const Menu = () => {
     <>
       <MenuItem href="/" icon={LayoutDashboardIcon}>
         Home
+      </MenuItem>
+      <MenuItem href="/report" icon={WandSparkles}>
+        Report
       </MenuItem>
       <MenuItem href="/events" icon={ActivityIcon}>
         Events
