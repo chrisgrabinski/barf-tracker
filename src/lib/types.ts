@@ -21,4 +21,5 @@ export interface BarfEntry {
   food: Omit<Food, "type"> & {
     type: FoodType;
   };
+  notes: string | null;
 }

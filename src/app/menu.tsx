@@ -2,7 +2,7 @@
 
 import {
   ActivityIcon,
-  FishIcon,
+  ForkKnifeIcon,
   LayoutDashboardIcon,
   type LucideIcon,
   PawPrintIcon,
@@ -58,7 +58,7 @@ const Menu = () => {
       <MenuItem href="/events" icon={ActivityIcon}>
         Events
       </MenuItem>
-      <MenuItem href="/food" icon={FishIcon}>
+      <MenuItem href="/food" icon={ForkKnifeIcon}>
         Food
       </MenuItem>
       <MenuItem href="/profile" icon={PawPrintIcon}>

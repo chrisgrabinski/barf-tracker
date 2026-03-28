@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva("overflow-clip rounded-3xl p-4 text-card-foreground", {
@@ -15,13 +16,23 @@ const cardVariants = cva("overflow-clip rounded-3xl p-4 text-card-foreground", {
 
 type CardVariants = VariantProps<typeof cardVariants>;
 
-type CardProps = React.ComponentProps<"div"> & CardVariants;
+interface CardProps extends React.ComponentProps<"div">, CardVariants {
+  asChild?: boolean;
+}
 
-const Card = ({ children, className, variant, ...props }: CardProps) => {
+const Card = ({
+  asChild,
+  children,
+  className,
+  variant,
+  ...props
+}: CardProps) => {
+  const Component = asChild ? Slot.Slot : "div";
+
   return (
-    <div className={cn(cardVariants({ className, variant }))} {...props}>
+    <Component className={cn(cardVariants({ className, variant }))} {...props}>
       {children}
-    </div>
+    </Component>
   );
 };
 

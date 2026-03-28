@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { TrashIcon } from "lucide-react";
+import { ForkKnifeIcon, TrashIcon } from "lucide-react";
 import { Card } from "@/components/card";
 import { IconButton } from "@/components/icon-button";
 import type { BarfEntry } from "@/lib/types";
@@ -11,38 +11,47 @@ type ListProps = {
 
 export const List = ({ entries, onDelete }: ListProps) => {
   return (
-    <Card>
-      {entries.length === 0 && (
-        <p className="text-muted-foreground">No barf entries yet</p>
-      )}
+    <div>
       {entries.length > 0 && (
-        <ul className="grid gap-8">
+        <ul className="grid gap-4">
           {entries.map((entry) => (
-            <li className="flex items-center gap-2" key={entry.id}>
-              <div className="size-12 rounded-full bg-muted" />
-              <div>
-                <div className="font-medium">
-                  {format(
-                    new Date(entry.created_at),
-                    "EEEE, MMMM d yyyy 'at' HH:mm",
-                  )}
+            <Card asChild key={entry.id}>
+              <li className="grid gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="size-12 rounded-full bg-muted" />
+                  <div className="grid gap-1">
+                    <div className="font-medium leading-none">
+                      Regurgitation
+                    </div>
+                    <div className="text-muted-foreground leading-none">
+                      {format(
+                        new Date(entry.created_at),
+                        "EEEE, MMMM d yyyy 'at' HH:mm",
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-muted-foreground">
-                  {entry.food.name} · {entry.food.type.name}
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <ForkKnifeIcon className="size-4" />
+                  <span className="font-medium">Food:</span>
+                  <span>
+                    {entry.food.name} · {entry.food.type.name}
+                  </span>
                 </div>
-              </div>
-              <IconButton
-                className="ml-auto"
-                onClick={() => onDelete(entry.id)}
-                size="sm"
-                variant="destructive"
-              >
-                <TrashIcon />
-              </IconButton>
-            </li>
+                {entry.notes && <div className="text-lg">{entry.notes}</div>}
+                <IconButton
+                  className="ml-auto"
+                  onClick={() => onDelete(entry.id)}
+                  size="sm"
+                  variant="destructive"
+                >
+                  <TrashIcon />
+                </IconButton>
+              </li>
+            </Card>
           ))}
         </ul>
       )}
-    </Card>
+    </div>
   );
 };
