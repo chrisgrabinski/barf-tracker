@@ -22,22 +22,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geist.className} bg-background p-4 pt-0 pb-25 text-foreground`}
-      >
+      <body className={`${geist.className} bg-background text-foreground`}>
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"
           enableSystem
         >
-          <Header />
-
-          <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
-            <div className="pointer-events-auto flex gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
-              <Menu />
-            </div>
-          </nav>
-          <main className="container mx-auto grid gap-6">{children}</main>
+          <div className="flex min-h-dvh flex-col px-4 pt-0 pb-25">
+            <Header />
+            <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center bg-linear-to-t from-background px-4 pb-4">
+              <div className="pointer-events-auto flex gap-1 rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
+                <Menu />
+              </div>
+            </nav>
+            <main className="container mx-auto grid grow gap-6">
+              {children}
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
