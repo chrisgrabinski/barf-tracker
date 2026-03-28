@@ -18,7 +18,6 @@ export type Database = {
         Row: {
           created_at: string
           food: string | null
-          food_type: string | null
           hidden: boolean | null
           id: number
           notes: string | null
@@ -28,7 +27,6 @@ export type Database = {
         Insert: {
           created_at?: string
           food?: string | null
-          food_type?: string | null
           hidden?: boolean | null
           id?: number
           notes?: string | null
@@ -38,7 +36,6 @@ export type Database = {
         Update: {
           created_at?: string
           food?: string | null
-          food_type?: string | null
           hidden?: boolean | null
           id?: number
           notes?: string | null
