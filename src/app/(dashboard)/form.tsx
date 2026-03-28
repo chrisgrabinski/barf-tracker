@@ -18,17 +18,13 @@ import type { Food } from "@/lib/types";
 
 type FormProps = {
   defaultValue?: string;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export const Form = ({ defaultValue, onSubmit }: FormProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+export const Form = ({ defaultValue }: FormProps) => {
   const [food, setFood] = useState<Food[]>([]);
 
   const fetchFood = useCallback(async () => {
     try {
-      setIsLoading(true);
-
       const { data, error: fetchError } = await supabase
         .from("food")
         .select("*");
@@ -38,14 +34,31 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
       setFood(data || []);
     } catch (err) {
       console.error("Error fetching food:", err);
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
     fetchFood();
   }, [fetchFood]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const foodType = formData.get("food") as string;
+    const notes = formData.get("notes") as string;
+
+    try {
+      const { data, error: insertError } = await supabase
+        .from("data")
+        .insert([{ food: foodType || null, notes: notes || null }])
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+    } catch (err) {
+      console.error("Error adding entry:", err);
+    }
+  };
 
   return (
     <Card className="grid gap-4">
@@ -55,7 +68,7 @@ export const Form = ({ defaultValue, onSubmit }: FormProps) => {
         </div>
         Quick log
       </div>
-      <form className="grid gap-4" onSubmit={onSubmit}>
+      <form className="grid gap-4" onSubmit={handleSubmit}>
         <FormFieldRoot name="food">
           <FormFieldLabel>Food type</FormFieldLabel>
           <FormFieldInput asChild>

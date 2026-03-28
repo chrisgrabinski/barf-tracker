@@ -1,15 +1,10 @@
-"use client";
-
 import { format, isSameDay, subDays } from "date-fns";
-import { useCallback, useEffect, useState } from "react";
-
+import { cacheLife } from "next/cache";
 import { BarfChart } from "@/app/(dashboard)/barf-chart";
 import { Form } from "@/app/(dashboard)/form";
-
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
 import { supabase } from "@/lib/supabase";
-import type { BarfEntry } from "@/lib/types";
 
 const today = new Date();
 
@@ -26,66 +21,23 @@ const getDays = (count: number) => {
   ];
 };
 
-export default function RootPage() {
-  const [entries, setEntries] = useState<BarfEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const getEntries = async () => {
+  "use cache";
 
-  const fetchEntries = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const { data, error: fetchError } = await supabase
-        .from("data")
-        .select("*, food ( *, type ( * ) )")
-        .not("hidden", "is", true)
-        .order("created_at", { ascending: false });
+  cacheLife("hours");
 
-      if (fetchError) throw fetchError;
+  return supabase
+    .from("data")
+    .select("*, food ( *, type ( * ) )")
+    .not("hidden", "is", true)
+    .order("created_at", { ascending: false });
+};
 
-      setEntries(data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch entries");
-      console.error("Error fetching entries:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+export default async function RootPage() {
+  const { data: entries } = await getEntries();
 
-  useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const foodType = formData.get("food") as string;
-    const notes = formData.get("notes") as string;
-
-    try {
-      const { data, error: insertError } = await supabase
-        .from("data")
-        .insert([{ food: foodType || null, notes: notes || null }])
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
-      if (data) {
-        setEntries((currentEntries) => [data, ...currentEntries]);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add entry");
-      console.error("Error adding entry:", err);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
+  if (!entries?.length) {
+    return null;
   }
 
   const oneWeekData = getDays(7)
@@ -97,17 +49,11 @@ export default function RootPage() {
     .map((entries) => entries.length)
     .reverse();
 
+  const defaultFood = entries?.[0]?.food?.slug;
+
   return (
     <div className="grid gap-4">
-      {error && (
-        <div className="rounded-lg border border-red-500 bg-red-950/20 p-4 text-red-400">
-          Error: {error}
-        </div>
-      )}
-      <Form
-        defaultValue={entries[0]?.food.slug || undefined}
-        onSubmit={handleSubmit}
-      />
+      <Form defaultValue={defaultFood} />
       <h2 className="font-medium text-2xl">Weekly overview</h2>
       <BarfChart entries={entries} />
       <h2 className="font-medium text-2xl">Stats</h2>
@@ -130,7 +76,7 @@ export default function RootPage() {
                 className="h-8 rounded-sm bg-green-500"
                 style={{
                   width: `${
-                    (entries.filter((entry) => entry.food.type.name === "Wet")
+                    (entries.filter((entry) => entry.food?.type.name === "Wet")
                       .length /
                       entries.length) *
                     100
@@ -144,7 +90,7 @@ export default function RootPage() {
                 className="h-8 rounded-sm bg-orange-500"
                 style={{
                   width: `${
-                    (entries.filter((entry) => entry.food.type.name === "Dry")
+                    (entries.filter((entry) => entry.food?.type.name === "Dry")
                       .length /
                       entries.length) *
                     100

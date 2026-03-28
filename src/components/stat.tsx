@@ -1,3 +1,5 @@
+"use client";
+
 import { useId } from "react";
 import { Area, AreaChart } from "recharts";
 import colors from "tailwindcss/colors";

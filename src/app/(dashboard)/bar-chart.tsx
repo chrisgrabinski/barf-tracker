@@ -1,6 +1,7 @@
+"use client";
+
 import { Bar, Cell, BarChart as RechartsBarChart, YAxis } from "recharts";
 import colors from "tailwindcss/colors";
-import { cn } from "@/lib/utils";
 
 /** Bottom-to-top stack order; last key is the top segment when present. */
 const STACK_KEYS = ["wet", "dry"] as const;

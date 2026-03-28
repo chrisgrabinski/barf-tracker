@@ -24,6 +24,8 @@ interface BarfChartProps {
   entries: BarfEntry[];
 }
 
+const now = new Date();
+
 export function BarfChart({ entries }: BarfChartProps) {
   const [chartType, setChartType] = useState<"bar" | "area">("bar");
 
@@ -32,7 +34,7 @@ export function BarfChart({ entries }: BarfChartProps) {
   const weeksDuration = 6;
 
   const weeks = Array.from({ length: weeksDuration }, (_, i) => {
-    const weekStartDate = startOfWeek(subWeeks(new Date(), i), {
+    const weekStartDate = startOfWeek(subWeeks(now, i), {
       weekStartsOn: 1,
     });
     const weekEndDate = endOfWeek(weekStartDate, { weekStartsOn: 1 });
@@ -54,9 +56,9 @@ export function BarfChart({ entries }: BarfChartProps) {
         weekStartDate,
         "MMM d",
       )} - ${format(weekEndDate, "MMM d")}`,
-      dry: entriesForWeek.filter((entry) => entry.food.type.name === "Dry")
+      dry: entriesForWeek.filter((entry) => entry.food?.type.name === "Dry")
         .length,
-      wet: entriesForWeek.filter((entry) => entry.food.type.name === "Wet")
+      wet: entriesForWeek.filter((entry) => entry.food?.type.name === "Wet")
         .length,
     };
   });
