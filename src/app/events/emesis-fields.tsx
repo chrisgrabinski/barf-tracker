@@ -11,17 +11,20 @@ type EmesisEventFormFieldsProps = {
   date?: string;
   food?: string;
   notes?: string;
+  slug?: string;
 };
 
 const EmesisEventFormFields = async ({
   date,
   food,
   notes,
+  slug,
 }: EmesisEventFormFieldsProps) => {
   const { data: foods } = await getFoods();
 
   return (
     <>
+      {slug && <input name="slug" type="hidden" value={slug} />}
       <FieldRoot name="date">
         <FieldLabel>Date</FieldLabel>
         <FieldInput defaultValue={date} />
