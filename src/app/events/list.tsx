@@ -28,7 +28,7 @@ export const List = ({ entries, onDelete }: ListProps) => {
                   )}
                 </div>
                 <div className="text-muted-foreground">
-                  {entry.food_type} food
+                  {entry.food.name} · {entry.food.type.name}
                 </div>
               </div>
               <IconButton

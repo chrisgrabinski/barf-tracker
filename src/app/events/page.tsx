@@ -18,7 +18,7 @@ export default function RootPage() {
       setError(null);
       const { data, error: fetchError } = await supabase
         .from("data")
-        .select("*")
+        .select("*, food ( *, type ( * ) )")
         .not("hidden", "is", true)
         .order("created_at", { ascending: false });
 
