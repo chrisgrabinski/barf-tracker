@@ -30,11 +30,9 @@ export default function RootLayout({
         >
           <div className="flex min-h-dvh flex-col px-4">
             <Header />
-            <nav className="pointer-events-none sticky bottom-0 z-50 order-last flex justify-center bg-linear-to-t from-background py-4">
-              <div className="pointer-events-auto flex w-full max-w-md rounded-full bg-card/50 bg-linear-to-t from-card/50 p-1 backdrop-blur-md backdrop-saturate-150">
-                <Menu />
-              </div>
-            </nav>
+            <div className="pointer-events-none sticky bottom-0 z-50 order-last flex justify-center bg-linear-to-t from-background py-4">
+              <Menu />
+            </div>
             <main className="container mx-auto flex grow flex-col gap-6">
               {children}
             </main>
