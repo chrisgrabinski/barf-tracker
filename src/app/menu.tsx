@@ -25,7 +25,8 @@ const MenuItem = ({
 }) => {
   const pathname = usePathname();
 
-  const isCurrentItem = pathname === href;
+  const isCurrentItem =
+    href === "/" ? pathname === href : pathname.includes(href);
 
   return (
     <Interactive>
@@ -36,7 +37,10 @@ const MenuItem = ({
           isCurrentItem && "text-primary-foreground",
         )}
       >
-        <Link href={href}>
+        <Link
+          // @ts-expect-error Types need to be adjusted
+          href={href}
+        >
           <Icon className="relative z-10 size-5 transition will-change-transform" />
           <div className="relative z-10 font-medium text-xs leading-none opacity-80">
             {children}
