@@ -1,24 +1,27 @@
 import { ForkKnifeIcon } from "lucide-react";
+import Link from "next/link";
 import { Card } from "@/components/card";
-
 import { getFoods } from "@/lib/database";
 
 type FoodProductProps = {
   name: string;
   type: string;
+  slug: string;
 };
 
-const FoodProduct = ({ name, type }: FoodProductProps) => {
+const FoodProduct = ({ name, slug, type }: FoodProductProps) => {
   return (
-    <Card className="flex items-center gap-4">
-      <div className="grid size-16 place-items-center rounded-xl bg-muted text-muted-foreground">
-        <ForkKnifeIcon className="size-6" />
-      </div>
-      <div className="flex flex-col gap-1">
-        <span className="font-medium">{name}</span>
-        <span className="text-muted-foreground">{type}</span>
-      </div>
-    </Card>
+    <Link href={`/food/${slug}`}>
+      <Card className="flex items-center gap-4">
+        <div className="grid size-16 place-items-center rounded-xl bg-muted text-muted-foreground">
+          <ForkKnifeIcon className="size-6" />
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="font-medium">{name}</span>
+          <span className="text-muted-foreground">{type}</span>
+        </div>
+      </Card>
+    </Link>
   );
 };
 
@@ -31,6 +34,7 @@ export default async function FoodPage() {
         <FoodProduct
           key={foodItem.slug}
           name={foodItem.name}
+          slug={foodItem.slug}
           type={foodItem.type.name}
         />
       ))}

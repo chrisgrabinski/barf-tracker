@@ -100,7 +100,7 @@ const FieldDescription = ({
 
   return (
     <div
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("px-4 text-muted-foreground text-sm", className)}
       id={descriptionId}
       {...props}
     >

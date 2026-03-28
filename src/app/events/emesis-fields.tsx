@@ -1,0 +1,56 @@
+import {
+  FieldDescription,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+} from "@/components/field";
+import { Textarea } from "@/components/textarea";
+import { getFoods } from "@/lib/database";
+
+type EmesisEventFormFieldsProps = {
+  date?: string;
+  food?: string;
+  notes?: string;
+};
+
+const EmesisEventFormFields = async ({
+  date,
+  food,
+  notes,
+}: EmesisEventFormFieldsProps) => {
+  const { data: foods } = await getFoods();
+
+  return (
+    <>
+      <FieldRoot name="date">
+        <FieldLabel>Date</FieldLabel>
+        <FieldInput defaultValue={date} />
+      </FieldRoot>
+      <FieldRoot name="food">
+        <FieldLabel>Food</FieldLabel>
+        <FieldInput asChild defaultValue={food}>
+          <select>
+            {foods?.map((food) => (
+              <option key={food.slug} value={food.slug}>
+                {food.name}
+              </option>
+            ))}
+          </select>
+        </FieldInput>
+      </FieldRoot>
+      <FieldRoot name="notes">
+        <FieldLabel>Notes</FieldLabel>
+        <FieldInput asChild>
+          <Textarea defaultValue={notes} />
+        </FieldInput>
+        <FieldDescription>
+          Describe the appearance and volume of the emesis (e.g., undigested
+          food, hairball) as well as behaviors or activities you observed
+          leading up to the episode.
+        </FieldDescription>
+      </FieldRoot>
+    </>
+  );
+};
+
+export { EmesisEventFormFields };

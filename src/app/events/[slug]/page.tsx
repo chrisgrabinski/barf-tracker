@@ -3,11 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DeleteRegurgitationEvent } from "@/app/events/[slug]/delete-event";
-import { Card } from "@/components/card";
-import { FieldInput, FieldLabel, FieldRoot } from "@/components/field";
+import { EmesisEventFormFields } from "@/app/events/emesis-fields";
+
 import { FormContent, FormRoot } from "@/components/form";
 import { IconButton } from "@/components/icon-button";
-import { Textarea } from "@/components/textarea";
+
 import { getRegurgitationEvent } from "@/lib/database";
 
 const Content = async ({ slug }: { slug: string }) => {
@@ -16,8 +16,6 @@ const Content = async ({ slug }: { slug: string }) => {
   if (!data) {
     return notFound();
   }
-
-  console.log(data, data.notes);
 
   return (
     <article className="grid gap-4">
@@ -28,20 +26,11 @@ const Content = async ({ slug }: { slug: string }) => {
       </IconButton>
       <FormRoot>
         <FormContent>
-          <FieldRoot name="date">
-            <FieldLabel>Date</FieldLabel>
-            <FieldInput defaultValue={data.created_at} />
-          </FieldRoot>
-          <FieldRoot name="food">
-            <FieldLabel>Food</FieldLabel>
-            <FieldInput defaultValue={data.food?.name} />
-          </FieldRoot>
-          <FieldRoot name="notes">
-            <FieldLabel>Notes</FieldLabel>
-            <FieldInput asChild>
-              <Textarea defaultValue={data.notes ?? undefined} />
-            </FieldInput>
-          </FieldRoot>
+          <EmesisEventFormFields
+            date={data.created_at}
+            food={data.food?.slug}
+            notes={data.notes ?? undefined}
+          />
         </FormContent>
         <FormContent>
           <DeleteRegurgitationEvent slug={slug} />

@@ -1,61 +1,31 @@
-"use client";
-
 import { NotebookPenIcon } from "lucide-react";
-
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { EmesisEventFormFields } from "@/app/events/emesis-fields";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import nauseatedFaceEmoji from "@/assets/nauseated-face_1f922.gif";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
-import { FieldInput, FieldLabel, FieldRoot } from "@/components/field";
 import { FormContent, FormRoot } from "@/components/form";
-import { Textarea } from "@/components/textarea";
 import { supabase } from "@/lib/supabase";
-import type { Food } from "@/lib/types";
 
 type QuickLogFormProps = {
   defaultValue?: string;
 };
 
 const QuickLogForm = ({ defaultValue }: QuickLogFormProps) => {
-  const [food, setFood] = useState<Food[]>([]);
+  const createEmesisEvent = async (formData: FormData) => {
+    "use server";
 
-  const fetchFood = useCallback(async () => {
-    try {
-      const { data, error: fetchError } = await supabase
-        .from("food")
-        .select("*");
+    const food = formData.get("food");
+    const notes = formData.get("notes");
 
-      if (fetchError) throw fetchError;
+    await supabase.from("data").insert({
+      food: typeof food === "string" ? food || null : null,
+      notes: typeof notes === "string" ? notes || null : null,
+    });
 
-      setFood(data || []);
-    } catch (err) {
-      console.error("Error fetching food:", err);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchFood();
-  }, [fetchFood]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const foodType = formData.get("food") as string;
-    const notes = formData.get("notes") as string;
-
-    try {
-      const { data, error: insertError } = await supabase
-        .from("data")
-        .insert([{ food: foodType || null, notes: notes || null }])
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-    } catch (err) {
-      console.error("Error adding entry:", err);
-    }
+    revalidateTag("regurgitations", "max");
   };
 
   return (
@@ -66,26 +36,9 @@ const QuickLogForm = ({ defaultValue }: QuickLogFormProps) => {
         </div>
         Quick log
       </div>
-      <FormRoot onSubmit={handleSubmit}>
+      <FormRoot action={createEmesisEvent}>
         <FormContent>
-          <FieldRoot name="food">
-            <FieldLabel>Food type</FieldLabel>
-            <FieldInput asChild>
-              <select className="appearance-none" defaultValue={defaultValue}>
-                {food.map((foodItem) => (
-                  <option key={foodItem.slug} value={foodItem.slug}>
-                    {foodItem.name}
-                  </option>
-                ))}
-              </select>
-            </FieldInput>
-          </FieldRoot>
-          <FieldRoot name="notes">
-            <FieldLabel>Notes</FieldLabel>
-            <FieldInput asChild>
-              <Textarea />
-            </FieldInput>
-          </FieldRoot>
+          <EmesisEventFormFields food={defaultValue} />
         </FormContent>
         <FormContent>
           <Button className="group" size="lg" type="submit" variant="primary">
