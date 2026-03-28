@@ -13,12 +13,12 @@ export const Header = () => {
         <h1 className="font-semibold text-lg">Catsup</h1>
       </div>
       <div className="flex items-center gap-2">
-        <ThemeSwitcher />
         <IconButton asChild variant="tertiary">
           <Link href="/settings">
             <SettingsIcon />
           </Link>
         </IconButton>
+        <ThemeSwitcher />
       </div>
     </header>
   );
