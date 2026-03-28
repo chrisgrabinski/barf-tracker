@@ -66,10 +66,5 @@ export default function RootPage() {
     );
   }
 
-  return (
-    <div className="grid gap-4">
-      <h1 className="font-medium text-4xl">Past incidents</h1>
-      <List entries={entries} onDelete={handleDelete} />
-    </div>
-  );
+  return <List entries={entries} onDelete={handleDelete} />;
 }
