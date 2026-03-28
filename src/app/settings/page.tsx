@@ -4,7 +4,7 @@ import { Card } from "@/components/card";
 
 export default function SettingsPage() {
   return (
-    <Card className="flex grow flex-col items-center justify-center gap-2">
+    <Card className="flex grow flex-col items-center justify-center gap-2 text-center">
       <div className="grid size-12 place-items-center rounded-xl bg-muted text-muted-foreground">
         <SettingsIcon />
       </div>
