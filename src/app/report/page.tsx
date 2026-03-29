@@ -110,9 +110,9 @@ async function ReportContent() {
         <span className="inline-flex gap-[0.5ch] align-baseline">
           <InfoIcon className="size-[1lh] shrink-0" />
           <span>
-            This health report is for informational purposes and is not a
-            clinical diagnosis. Always consult a qualified veterinarian
-            regarding your cat’s health or any medical concerns.
+            This report is for informational purposes and is not a clinical
+            diagnosis. Always consult a qualified veterinarian regarding your
+            cat’s health or any medical concerns.
           </span>
         </span>
       </Card>
