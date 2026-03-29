@@ -82,7 +82,9 @@ const CreateEmesisForm = (props: CreateEmesisFormProps) => {
         <EmesisFormFields {...props} />
       </FormContent>
       <FormContent>
-        <Button size="lg">Create</Button>
+        <Button size="lg" variant="primary">
+          Create
+        </Button>
       </FormContent>
     </FormRoot>
   );
