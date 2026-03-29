@@ -7,7 +7,7 @@ export const getWeights = async () => {
   cacheLife("hours");
   cacheTag("weights");
 
-  return supabase.from("weight").select("*");
+  return supabase.from("weight_events").select("*");
 };
 
 export const getCurrentWeight = async () => {
@@ -16,7 +16,11 @@ export const getCurrentWeight = async () => {
   cacheLife("hours");
   cacheTag("weights", "weight");
 
-  return supabase.from("weight").select("value").single();
+  return supabase
+    .from("weight_events")
+    .select("value")
+    .order("datetime")
+    .single();
 };
 
 export const getFoodTypes = async () => {

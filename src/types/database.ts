@@ -14,7 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      data: {
+      emesis_events: {
         Row: {
           created_at: string
           food: string | null
@@ -73,6 +73,35 @@ export type Database = {
         }
         Relationships: []
       }
+      feeding_events: {
+        Row: {
+          created_at: string
+          datetime: string
+          food: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          datetime?: string
+          food: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          datetime?: string
+          food?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feeding_events_food_fkey"
+            columns: ["food"]
+            isOneToOne: false
+            referencedRelation: "food"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       food: {
         Row: {
           created_at: string
@@ -129,19 +158,52 @@ export type Database = {
         }
         Relationships: []
       }
-      weight: {
+      pets: {
+        Row: {
+          breed: string | null
+          created_at: string
+          environment: string | null
+          id: number
+          name: string
+          sex: string | null
+          slug: string
+        }
+        Insert: {
+          breed?: string | null
+          created_at?: string
+          environment?: string | null
+          id?: number
+          name: string
+          sex?: string | null
+          slug?: string
+        }
+        Update: {
+          breed?: string | null
+          created_at?: string
+          environment?: string | null
+          id?: number
+          name?: string
+          sex?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      weight_events: {
         Row: {
           created_at: string
+          datetime: string
           id: number
           value: number
         }
         Insert: {
           created_at?: string
+          datetime?: string
           id?: number
           value: number
         }
         Update: {
           created_at?: string
+          datetime?: string
           id?: number
           value?: number
         }

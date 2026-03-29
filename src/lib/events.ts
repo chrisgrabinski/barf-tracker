@@ -11,7 +11,7 @@ export const getEmesisEvents = async () => {
   cacheTag(EMESIS_EVENT_LIST_TAG);
 
   return supabase
-    .from("data")
+    .from("emesis_events")
     .select("*, food ( *, type ( * ) )")
     .not("hidden", "is", true)
     .order("created_at", { ascending: false });
@@ -24,7 +24,7 @@ export const getEmesisEvent = async (slug: string) => {
   cacheTag(slug);
 
   return supabase
-    .from("data")
+    .from("emesis_events")
     .select("*, food ( *, type ( * ) )")
     .eq("slug", slug)
     .single();
@@ -36,7 +36,7 @@ export const createEmesisEvent = async (formData: FormData) => {
   const food = formData.get("food");
   const notes = formData.get("notes");
 
-  await supabase.from("data").insert({
+  await supabase.from("emesis_events").insert({
     food: typeof food === "string" ? food || null : null,
     notes: typeof notes === "string" ? notes || null : null,
   });
@@ -61,7 +61,7 @@ export const updateEmesisEvent = async (formData: FormData) => {
   const notes = formData.get("notes");
 
   await supabase
-    .from("data")
+    .from("emesis_events")
     .update({
       food: typeof food === "string" ? food || null : null,
       notes: typeof notes === "string" ? notes || null : null,
@@ -88,7 +88,7 @@ export const deleteEmesisEvent = async (formData: FormData) => {
   }
 
   await supabase
-    .from("data")
+    .from("emesis_events")
     .update({
       hidden: true,
     })
