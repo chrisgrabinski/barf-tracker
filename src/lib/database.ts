@@ -75,3 +75,16 @@ export const createFood = async (formData: FormData) => {
     type: type as string,
   });
 };
+
+export const getPet = async (slug: string) => {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("profile", "weight");
+
+  if (!slug) {
+    throw new Error("no slug provided.");
+  }
+
+  return supabase.from("pets").select("*, vet ( * )").eq("slug", slug).single();
+};
