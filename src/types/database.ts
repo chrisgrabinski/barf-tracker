@@ -160,31 +160,96 @@ export type Database = {
       }
       pets: {
         Row: {
+          birthdate: string | null
           breed: string | null
           created_at: string
+          doctor: string | null
           environment: string | null
+          given_date: string | null
           id: number
           name: string
           sex: string | null
           slug: string
+          vet: string | null
         }
         Insert: {
+          birthdate?: string | null
           breed?: string | null
           created_at?: string
+          doctor?: string | null
           environment?: string | null
+          given_date?: string | null
           id?: number
           name: string
           sex?: string | null
           slug?: string
+          vet?: string | null
         }
         Update: {
+          birthdate?: string | null
           breed?: string | null
           created_at?: string
+          doctor?: string | null
           environment?: string | null
+          given_date?: string | null
           id?: number
           name?: string
           sex?: string | null
           slug?: string
+          vet?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pets_vet_fkey"
+            columns: ["vet"]
+            isOneToOne: false
+            referencedRelation: "vets"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
+      vets: {
+        Row: {
+          address_line_1: string
+          address_line_2: string | null
+          city: string
+          country: string
+          created_at: string
+          id: number
+          image: string | null
+          name: string
+          phone: string | null
+          post_code: string
+          slug: string
+          url: string | null
+        }
+        Insert: {
+          address_line_1: string
+          address_line_2?: string | null
+          city: string
+          country: string
+          created_at?: string
+          id?: number
+          image?: string | null
+          name: string
+          phone?: string | null
+          post_code: string
+          slug?: string
+          url?: string | null
+        }
+        Update: {
+          address_line_1?: string
+          address_line_2?: string | null
+          city?: string
+          country?: string
+          created_at?: string
+          id?: number
+          image?: string | null
+          name?: string
+          phone?: string | null
+          post_code?: string
+          slug?: string
+          url?: string | null
         }
         Relationships: []
       }
