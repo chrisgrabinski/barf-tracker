@@ -10,7 +10,7 @@ import { getEmesisEvents } from "@/lib/events";
 
 const reportSchema = z.object({
   diagnosis: z.string(),
-  suggestions: z.string(),
+  suggestions: z.array(z.string()),
   summary: z.string(),
 });
 
@@ -31,11 +31,17 @@ async function getReportFromModel(dataJson: string): Promise<ReportOutput> {
     output: Output.object({
       schema: reportSchema,
     }),
-    prompt: `Our cat regurgitates frequently. We are tracking events, including information about food as well as some notes. Analyze the data, summarize it, and provide a diagnosis and tips:
+    prompt: `Our cat pukes frequently. We are tracking events, including information about food as well as some notes.
+
+    - Analyze the provided data.
+    - Return a short summary, not longer than a tweet.
+    - Return a diagnosis based on the provided data, not longer than two tweets.
+    - Return 3 suggestions for things to try to stop emesis for the cat.
+
+    Here is the data:
     
     ${dataJson}
     `,
-    system: "",
   });
 
   return reportSchema.parse(result.output);
@@ -77,12 +83,21 @@ async function ReportContent() {
         </Heading>
         <p>{report.diagnosis}</p>
       </Card>
-      <Card className="grid gap-2">
-        <Heading level={2} size={5}>
-          Suggestions
-        </Heading>
-        <p>{report.suggestions}</p>
-      </Card>
+      <Heading className="px-4" level={2} size={5}>
+        Suggestions
+      </Heading>
+      <ul className="grid gap-4">
+        {report.suggestions.map((suggestion, index) => (
+          <Card asChild key={index}>
+            <li className="flex items-center gap-4">
+              <div className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-primary font-semibold text-primary text-xl">
+                {index + 1}
+              </div>
+              {suggestion}
+            </li>
+          </Card>
+        ))}
+      </ul>
     </div>
   );
 }
