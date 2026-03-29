@@ -198,26 +198,32 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          image: string | null
           name: string
           notes: string | null
           slug: string
           type: string
+          url: string | null
         }
         Insert: {
           created_at?: string
           id?: number
+          image?: string | null
           name: string
           notes?: string | null
           slug?: string
           type: string
+          url?: string | null
         }
         Update: {
           created_at?: string
           id?: number
+          image?: string | null
           name?: string
           notes?: string | null
           slug?: string
           type?: string
+          url?: string | null
         }
         Relationships: [
           {

@@ -18,7 +18,7 @@ const QuickLogForm = async () => {
       </div>
       <CreateEmesisForm
         datetime={now.toISOString()}
-        food={defaultFood ?? undefined}
+        food={defaultFood?.slug ?? undefined}
       />
     </Card>
   );

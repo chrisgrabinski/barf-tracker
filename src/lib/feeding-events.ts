@@ -20,7 +20,7 @@ export const getFeedingEvents = async () => {
 
   const { data, error } = await supabase
     .from("feeding_events")
-    .select("*")
+    .select("*, food ( *, type ( * ) )")
     .not("hidden", "is", true)
     .order("datetime", { ascending: false });
 
@@ -37,7 +37,7 @@ export const getLatestFeedingEvent = async () => {
 
   const { data, error } = await supabase
     .from("feeding_events")
-    .select("*")
+    .select("*, food ( *, type ( * ) )")
     .not("hidden", "is", true)
     .order("datetime", { ascending: false })
     .limit(1)
@@ -56,7 +56,7 @@ export const getFeedingEvent = async (slug: string) => {
 
   const { data, error } = await supabase
     .from("feeding_events")
-    .select("*")
+    .select("*, food ( *, type ( * ) )")
     .eq("slug", slug)
     .single();
 

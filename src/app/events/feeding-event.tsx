@@ -2,16 +2,16 @@ import { format } from "date-fns";
 import { ForkKnifeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
+import emoji from "@/assets/fishing-pole.webp";
 import { Card } from "@/components/card";
-import { getEmesisEvent } from "@/lib/emesis-events";
+import { getFeedingEvent } from "@/lib/feeding-events";
 
-type EmesisEventProps = {
+type FeedingEventProps = {
   slug: string;
 };
 
-const EmesisEvent = async ({ slug }: EmesisEventProps) => {
-  const event = await getEmesisEvent(slug);
+const FeedingEvent = async ({ slug }: FeedingEventProps) => {
+  const event = await getFeedingEvent(slug);
 
   if (!event) {
     return null;
@@ -22,15 +22,12 @@ const EmesisEvent = async ({ slug }: EmesisEventProps) => {
       <Card className="grid gap-4">
         <div className="flex items-center gap-2">
           <div className="grid size-12 place-items-center rounded-full bg-muted">
-            <Image alt="" className="size-6" src={vomitingFaceEmoji} />
+            <Image alt="" className="size-6" src={emoji} />
           </div>
           <div className="grid gap-1">
-            <div className="font-medium text-xl leading-none">Emesis</div>
+            <div className="font-medium text-xl leading-none">Feeding</div>
             <div className="text-muted-foreground leading-none">
-              {format(
-                new Date(event.created_at),
-                "EEEE, MMMM d yyyy 'at' HH:mm",
-              )}
+              {format(new Date(event.datetime), "EEEE, MMMM d yyyy 'at' HH:mm")}
             </div>
           </div>
         </div>
@@ -38,13 +35,12 @@ const EmesisEvent = async ({ slug }: EmesisEventProps) => {
           <ForkKnifeIcon className="size-4" />
           <span className="font-medium">Food:</span>
           <span>
-            {event?.food?.name} · {event?.food?.type.name}
+            {event?.food.name} · {event?.food?.type.name}
           </span>
         </div>
-        {event.notes && <div>{event.notes}</div>}
       </Card>
     </Link>
   );
 };
 
-export { EmesisEvent };
+export { FeedingEvent };

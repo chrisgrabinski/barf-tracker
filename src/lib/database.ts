@@ -38,7 +38,7 @@ export const getFoods = async () => {
   cacheLife("hours");
   cacheTag("foods");
 
-  return supabase.from("food").select("*, type ( * )");
+  return supabase.from("food").select("*, type ( * )").order("name");
 };
 
 export const getFoodItem = async (slug: string) => {
