@@ -4,15 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import { Card } from "@/components/card";
-
-import { getEmesisEvent } from "@/lib/events";
+import { getEmesisEvent } from "@/lib/emesis-events";
 
 type RegurgitationEventProps = {
   slug: string;
 };
 
 const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
-  const { data: event } = await getEmesisEvent(slug);
+  const event = await getEmesisEvent(slug);
 
   if (!event) {
     return null;

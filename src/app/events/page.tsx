@@ -2,14 +2,16 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { RegurgitationEvent } from "@/app/events/regurgitation-event";
 import { IconButton } from "@/components/icon-button";
-import { getEmesisEvents } from "@/lib/events";
+import { getEmesisEvents } from "@/lib/emesis-events";
 
 export default async function EventsPage() {
-  const { data: regurgitationEvents } = await getEmesisEvents();
+  const events = await getEmesisEvents();
 
-  if (!regurgitationEvents) {
+  if (!events) {
     return null;
   }
+
+  console.log(events);
 
   return (
     <div className="grid gap-4">
@@ -21,7 +23,7 @@ export default async function EventsPage() {
         </IconButton>
       </div>
       <ul className="grid gap-4">
-        {regurgitationEvents.map((event) => (
+        {events.map((event) => (
           <li key={event.slug}>
             <RegurgitationEvent slug={event.slug} />
           </li>

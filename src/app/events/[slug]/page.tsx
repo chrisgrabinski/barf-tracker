@@ -1,23 +1,15 @@
 import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-
-import { EmesisEventFormFields } from "@/app/events/emesis-fields";
-import { Button } from "@/components/button";
-import { FormContent, FormRoot } from "@/components/form";
+import { Suspense, use } from "react";
+import { UpdateEmesisForm } from "@/app/events/emesis-form";
 import { IconButton } from "@/components/icon-button";
-
-import {
-  deleteEmesisEvent,
-  getEmesisEvent,
-  updateEmesisEvent,
-} from "@/lib/events";
+import { getEmesisEvent } from "@/lib/emesis-events";
 
 const Content = async ({ slug }: { slug: string }) => {
-  const { data } = await getEmesisEvent(slug);
+  const event = await getEmesisEvent(slug);
 
-  if (!data) {
+  if (!event) {
     return notFound();
   }
 
@@ -28,22 +20,7 @@ const Content = async ({ slug }: { slug: string }) => {
           <ChevronLeftIcon />
         </Link>
       </IconButton>
-      <FormRoot action={updateEmesisEvent}>
-        <FormContent>
-          <EmesisEventFormFields
-            date={data.created_at}
-            food={data.food?.slug}
-            notes={data.notes ?? undefined}
-            slug={data.slug}
-          />
-        </FormContent>
-        <FormContent>
-          <Button variant="primary">Update</Button>
-          <Button formAction={deleteEmesisEvent} variant="destructive">
-            Delete
-          </Button>
-        </FormContent>
-      </FormRoot>
+      <UpdateEmesisForm />
     </article>
   );
 };
