@@ -19,6 +19,15 @@ export const getCurrentWeight = async () => {
   return supabase.from("weight").select("value").single();
 };
 
+export const getFoodTypes = async () => {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("food-types");
+
+  return supabase.from("food_type").select("*");
+};
+
 export const getFoods = async () => {
   "use cache";
 
@@ -39,4 +48,26 @@ export const getFoodItem = async (slug: string) => {
     .select("*, type ( * )")
     .eq("slug", slug)
     .single();
+};
+
+export const createFood = async (formData: FormData) => {
+  "use server";
+
+  const name = formData.get("name");
+  const type = formData.get("type");
+  const notes = formData.get("notes");
+
+  if (!name) {
+    throw new Error("name is required.");
+  }
+
+  if (typeof name !== "string") {
+    throw new Error("name is not a string.");
+  }
+
+  await supabase.from("food").insert({
+    name,
+    notes: (notes as string) || null,
+    type: type as string,
+  });
 };

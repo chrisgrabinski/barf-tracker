@@ -78,6 +78,7 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          notes: string | null
           slug: string
           type: string
         }
@@ -85,6 +86,7 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          notes?: string | null
           slug?: string
           type: string
         }
@@ -92,6 +94,7 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          notes?: string | null
           slug?: string
           type?: string
         }

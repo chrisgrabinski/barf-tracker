@@ -1,6 +1,7 @@
-import { ForkKnifeIcon } from "lucide-react";
+import { ForkKnifeIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/card";
+import { IconButton } from "@/components/icon-button";
 import { getFoods } from "@/lib/database";
 
 type FoodProductProps = {
@@ -30,6 +31,13 @@ export default async function FoodPage() {
 
   return (
     <div className="grid gap-4">
+      <div>
+        <IconButton asChild variant="primary">
+          <Link href="/food/add">
+            <PlusIcon />
+          </Link>
+        </IconButton>
+      </div>
       {food?.map((foodItem) => (
         <FoodProduct
           key={foodItem.slug}
