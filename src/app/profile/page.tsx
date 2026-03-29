@@ -31,20 +31,22 @@ export default async function ProfilePage() {
 
   return (
     <div className="grid gap-4">
-      <Card className="flex items-center gap-6">
-        <div className="size-32 overflow-clip rounded-full">
-          <Image alt="" src={mitsyProfile} />
+      <div className="flex flex-col items-center gap-4 p-8">
+        <div className="size-40 overflow-clip rounded-full">
+          {pet.image && (
+            <Image alt="" height={256} src={pet.image} width={256} />
+          )}
         </div>
-        <div>
-          <p className="flex gap-2 font-medium text-2xl">
-            {pet.name}
+        <div className="text-center">
+          <div className="font-medium text-3xl">
+            {pet.name}{" "}
             {pet.sex && <span>{pet.sex === "female" ? "♀️" : "♂️"}</span>}
-          </p>
+          </div>
           <p className="flex gap-2 text-muted-foreground">
             <span>{pet.breed}</span>·<span>{pet.environment}</span>
           </p>
         </div>
-      </Card>
+      </div>
       <Card className="grid gap-1.5">
         <CakeIcon className="text-accent" />
         {pet.birthdate && (

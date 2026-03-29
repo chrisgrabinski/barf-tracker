@@ -167,6 +167,7 @@ export type Database = {
           environment: string | null
           given_date: string | null
           id: number
+          image: string | null
           name: string
           sex: string | null
           slug: string
@@ -180,6 +181,7 @@ export type Database = {
           environment?: string | null
           given_date?: string | null
           id?: number
+          image?: string | null
           name: string
           sex?: string | null
           slug?: string
@@ -193,6 +195,7 @@ export type Database = {
           environment?: string | null
           given_date?: string | null
           id?: number
+          image?: string | null
           name?: string
           sex?: string | null
           slug?: string
