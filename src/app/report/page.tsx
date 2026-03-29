@@ -1,5 +1,6 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText, Output } from "ai";
+import { InfoIcon } from "lucide-react";
 import { cacheLife, cacheTag } from "next/cache";
 import { Suspense } from "react";
 import { z } from "zod";
@@ -105,6 +106,16 @@ async function ReportContent() {
 
   return (
     <div className="grid gap-4">
+      <Card className="bg-muted p-4 text-muted-foreground text-sm">
+        <span className="inline-flex gap-[0.5ch] align-baseline">
+          <InfoIcon className="size-[1lh] shrink-0" />
+          <span>
+            This health report is for informational purposes and is not a
+            clinical diagnosis. Always consult a qualified veterinarian
+            regarding your cat’s health or any medical concerns.
+          </span>
+        </span>
+      </Card>
       <Card className="grid gap-2">
         <Heading level={2} size={5}>
           Summary
