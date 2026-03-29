@@ -10,7 +10,7 @@ export default async function AddFoodPage() {
   return (
     <div className="grid gap-4">
       <IconButton asChild>
-        <Link href="/events">
+        <Link href="/food">
           <ChevronLeftIcon />
         </Link>
       </IconButton>
