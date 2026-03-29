@@ -35,7 +35,6 @@ const MenuItem = ({
         asChild
         className={cn(
           "relative flex h-14 flex-1 flex-col items-center justify-center gap-1 overflow-clip rounded-full transition hover:bg-muted/50",
-          isCurrentItem && "text-primary-foreground",
         )}
       >
         <Link
