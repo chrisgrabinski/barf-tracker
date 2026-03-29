@@ -78,23 +78,23 @@ export default async function ProfilePage() {
       <Card className="flex gap-4">
         <div className="grid flex-1 gap-4">
           <div>
-            <div className="font-medium text-lg">{pet.vet?.name}</div>
-            <div>{pet.vet?.address_line_1}</div>
-            <div>{pet.vet?.address_line_2}</div>
+            <div className="font-medium text-lg">{pet.clinic?.name}</div>
+            <div>{pet.clinic?.address_line_1}</div>
+            <div>{pet.clinic?.address_line_2}</div>
             <div>
-              {pet.vet?.post_code} {pet.vet?.city}
+              {pet.clinic?.post_code} {pet.clinic?.city}
             </div>
-            <div>{pet.vet?.country}</div>
+            <div>{pet.clinic?.country}</div>
           </div>
 
           <div className="flex items-center gap-2">
             <div className="size-8 rounded-full bg-primary"></div>
-            {pet.doctor}
+            {pet.doctor?.name}
           </div>
         </div>
         <div className="size-16 overflow-clip rounded-xl">
-          {pet.vet?.image && (
-            <Image alt="" height={480} src={pet.vet.image} width={480} />
+          {pet.doctor?.image && (
+            <Image alt="" height={480} src={pet.doctor.image} width={480} />
           )}
         </div>
       </Card>

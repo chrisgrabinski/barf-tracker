@@ -86,5 +86,9 @@ export const getPet = async (slug: string) => {
     throw new Error("no slug provided.");
   }
 
-  return supabase.from("pets").select("*, vet ( * )").eq("slug", slug).single();
+  return supabase
+    .from("pets")
+    .select("*, clinic ( * ), doctor ( * )")
+    .eq("slug", slug)
+    .single();
 };

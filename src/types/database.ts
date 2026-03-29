@@ -14,6 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
+      clinics: {
+        Row: {
+          address_line_1: string
+          address_line_2: string | null
+          city: string
+          country: string
+          created_at: string
+          id: number
+          image: string | null
+          name: string
+          phone: string | null
+          post_code: string
+          slug: string
+          url: string | null
+        }
+        Insert: {
+          address_line_1: string
+          address_line_2?: string | null
+          city: string
+          country: string
+          created_at?: string
+          id?: number
+          image?: string | null
+          name: string
+          phone?: string | null
+          post_code: string
+          slug?: string
+          url?: string | null
+        }
+        Update: {
+          address_line_1?: string
+          address_line_2?: string | null
+          city?: string
+          country?: string
+          created_at?: string
+          id?: number
+          image?: string | null
+          name?: string
+          phone?: string | null
+          post_code?: string
+          slug?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      doctors: {
+        Row: {
+          clinic: string | null
+          created_at: string
+          id: number
+          image: string | null
+          name: string
+          role: string | null
+          slug: string | null
+        }
+        Insert: {
+          clinic?: string | null
+          created_at?: string
+          id?: number
+          image?: string | null
+          name: string
+          role?: string | null
+          slug?: string | null
+        }
+        Update: {
+          clinic?: string | null
+          created_at?: string
+          id?: number
+          image?: string | null
+          name?: string
+          role?: string | null
+          slug?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vets_clinic_fkey"
+            columns: ["clinic"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       emesis_events: {
         Row: {
           created_at: string
@@ -162,6 +245,7 @@ export type Database = {
         Row: {
           birthdate: string | null
           breed: string | null
+          clinic: string | null
           created_at: string
           doctor: string | null
           environment: string | null
@@ -171,11 +255,11 @@ export type Database = {
           name: string
           sex: string | null
           slug: string
-          vet: string | null
         }
         Insert: {
           birthdate?: string | null
           breed?: string | null
+          clinic?: string | null
           created_at?: string
           doctor?: string | null
           environment?: string | null
@@ -185,11 +269,11 @@ export type Database = {
           name: string
           sex?: string | null
           slug?: string
-          vet?: string | null
         }
         Update: {
           birthdate?: string | null
           breed?: string | null
+          clinic?: string | null
           created_at?: string
           doctor?: string | null
           environment?: string | null
@@ -199,62 +283,23 @@ export type Database = {
           name?: string
           sex?: string | null
           slug?: string
-          vet?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "pets_vet_fkey"
-            columns: ["vet"]
+            foreignKeyName: "pets_clinic_fkey"
+            columns: ["clinic"]
             isOneToOne: false
-            referencedRelation: "vets"
+            referencedRelation: "clinics"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "pets_doctor_fkey"
+            columns: ["doctor"]
+            isOneToOne: false
+            referencedRelation: "doctors"
             referencedColumns: ["slug"]
           },
         ]
-      }
-      vets: {
-        Row: {
-          address_line_1: string
-          address_line_2: string | null
-          city: string
-          country: string
-          created_at: string
-          id: number
-          image: string | null
-          name: string
-          phone: string | null
-          post_code: string
-          slug: string
-          url: string | null
-        }
-        Insert: {
-          address_line_1: string
-          address_line_2?: string | null
-          city: string
-          country: string
-          created_at?: string
-          id?: number
-          image?: string | null
-          name: string
-          phone?: string | null
-          post_code: string
-          slug?: string
-          url?: string | null
-        }
-        Update: {
-          address_line_1?: string
-          address_line_2?: string | null
-          city?: string
-          country?: string
-          created_at?: string
-          id?: number
-          image?: string | null
-          name?: string
-          phone?: string | null
-          post_code?: string
-          slug?: string
-          url?: string | null
-        }
-        Relationships: []
       }
       weight_events: {
         Row: {
