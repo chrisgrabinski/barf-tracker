@@ -8,8 +8,8 @@ import {
   PawPrintIcon,
   WandSparkles,
 } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link, { type LinkProps } from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { Interactive } from "@/components/interactive";
 import { cn } from "@/lib/utils";
@@ -22,12 +22,18 @@ const MenuItem = ({
 }: {
   children: React.ReactNode;
   icon: LucideIcon;
-  href: string;
+  href: LinkProps<string>["href"];
 }) => {
+  const router = useRouter();
   const pathname = usePathname();
 
   const isCurrentItem =
-    href === "/" ? pathname === href : pathname.includes(href);
+    href === "/" ? pathname === href : pathname.includes(href as string);
+
+  const handlePointerDown = () => {
+    // @ts-expect-error Types need to be adjusted
+    router.push(href);
+  };
 
   return (
     <Interactive>
@@ -38,8 +44,11 @@ const MenuItem = ({
         )}
       >
         <Link
-          // @ts-expect-error Types need to be adjusted
           href={href}
+          onClick={(event) => {
+            event.preventDefault();
+          }}
+          onPointerDown={handlePointerDown}
         >
           <Icon className="relative z-10 size-5 transition will-change-transform" />
           <div className="relative z-10 font-medium text-xs leading-none opacity-80">
