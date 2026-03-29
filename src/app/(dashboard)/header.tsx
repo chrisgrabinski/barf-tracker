@@ -8,9 +8,9 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 export const Header = () => {
   return (
     <header className="container mx-auto flex items-center justify-between gap-3 py-4">
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1">
         <Image alt="" height={28} src={grinningCatEmoji} width={28} />
-        <h1 className="font-semibold text-lg">Catsup</h1>
+        <h1 className="font-semibold text-2xl">Catsup</h1>
       </div>
       <div className="flex items-center gap-2">
         <IconButton asChild variant="tertiary">
