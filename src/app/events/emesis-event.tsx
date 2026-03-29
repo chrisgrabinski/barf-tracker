@@ -6,11 +6,11 @@ import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import { Card } from "@/components/card";
 import { getEmesisEvent } from "@/lib/emesis-events";
 
-type RegurgitationEventProps = {
+type EmesisEventProps = {
   slug: string;
 };
 
-const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
+const EmesisEvent = async ({ slug }: EmesisEventProps) => {
   const event = await getEmesisEvent(slug);
 
   if (!event) {
@@ -47,4 +47,4 @@ const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
   );
 };
 
-export { RegurgitationEvent };
+export { EmesisEvent };
