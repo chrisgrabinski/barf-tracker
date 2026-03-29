@@ -20,13 +20,13 @@ const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
 
   return (
     <Link href={`/events/${slug}`}>
-      <Card className="grid gap-2">
-        <div className="flex items-center gap-2">
+      <Card className="grid gap-4">
+        <div className="flex items-center gap-4">
           <div className="grid size-12 place-items-center rounded-full bg-primary">
             <Image alt="" className="size-6" src={vomitingFaceEmoji} />
           </div>
           <div className="grid gap-1">
-            <div className="font-medium leading-none">Emesis</div>
+            <div className="font-medium text-xl leading-none">Emesis</div>
             <div className="text-muted-foreground leading-none">
               {format(
                 new Date(event.created_at),
@@ -42,7 +42,7 @@ const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
             {event?.food?.name} · {event?.food?.type.name}
           </span>
         </div>
-        {event.notes && <div className="text-lg">{event.notes}</div>}
+        {event.notes && <div>{event.notes}</div>}
       </Card>
     </Link>
   );
