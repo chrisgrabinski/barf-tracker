@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Card } from "@/components/card";
 import { Heading } from "@/components/heading";
 
-import { getEvents } from "@/lib/database";
+import { getEmesisEvents } from "@/lib/events";
 
 const reportSchema = z.object({
   diagnosis: z.string(),
@@ -55,7 +55,7 @@ function ReportSkeleton() {
 }
 
 async function ReportContent() {
-  const { data: rows, error } = await getEvents();
+  const { data: rows, error } = await getEmesisEvents();
   if (error) {
     throw new Error(error.message);
   }

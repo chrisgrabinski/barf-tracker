@@ -1,15 +1,18 @@
 import { format } from "date-fns";
 import { ForkKnifeIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import vomitingFaceEmoji from "@/assets/face-vomiting_1f92e.gif";
 import { Card } from "@/components/card";
-import { getRegurgitationEvent } from "@/lib/database";
+
+import { getEmesisEvent } from "@/lib/events";
 
 type RegurgitationEventProps = {
   slug: string;
 };
 
 const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
-  const { data: event } = await getRegurgitationEvent(slug);
+  const { data: event } = await getEmesisEvent(slug);
 
   if (!event) {
     return null;
@@ -19,9 +22,11 @@ const RegurgitationEvent = async ({ slug }: RegurgitationEventProps) => {
     <Link href={`/events/${slug}`}>
       <Card className="grid gap-2">
         <div className="flex items-center gap-2">
-          <div className="size-12 rounded-full bg-muted" />
+          <div className="grid size-12 place-items-center rounded-full bg-primary">
+            <Image alt="" className="size-6" src={vomitingFaceEmoji} />
+          </div>
           <div className="grid gap-1">
-            <div className="font-medium leading-none">Regurgitation</div>
+            <div className="font-medium leading-none">Emesis</div>
             <div className="text-muted-foreground leading-none">
               {format(
                 new Date(event.created_at),

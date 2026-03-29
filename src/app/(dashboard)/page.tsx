@@ -4,7 +4,7 @@ import { BarfChart } from "@/app/(dashboard)/barf-chart";
 import { QuickLogForm } from "@/app/(dashboard)/form";
 import { Stat } from "@/components/stat";
 import { WidgetRoot, WidgetTitle } from "@/components/widget";
-import { getEvents } from "@/lib/database";
+import { getEmesisEvents } from "@/lib/events";
 
 const today = new Date();
 
@@ -22,7 +22,7 @@ const getDays = (count: number) => {
 };
 
 export default async function RootPage() {
-  const { data: entries } = await getEvents();
+  const { data: entries } = await getEmesisEvents();
 
   if (!entries?.length) {
     return null;

@@ -7,11 +7,15 @@ import { EmesisEventFormFields } from "@/app/events/emesis-fields";
 import { Button } from "@/components/button";
 import { FormContent, FormRoot } from "@/components/form";
 import { IconButton } from "@/components/icon-button";
-import { getRegurgitationEvent } from "@/lib/database";
-import { deleteEmesisEvent, updateEmesisEvent } from "@/lib/events";
+
+import {
+  deleteEmesisEvent,
+  getEmesisEvent,
+  updateEmesisEvent,
+} from "@/lib/events";
 
 const Content = async ({ slug }: { slug: string }) => {
-  const { data } = await getRegurgitationEvent(slug);
+  const { data } = await getEmesisEvent(slug);
 
   if (!data) {
     return notFound();

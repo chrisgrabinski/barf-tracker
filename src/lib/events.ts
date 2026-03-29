@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 const EMESIS_EVENT_LIST_TAG = "emesis-events";
-const EMESIS_EVENT_ITEM_TAG = "emesis-event";
 
 export const getEmesisEvents = async () => {
   "use cache";

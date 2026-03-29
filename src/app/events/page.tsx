@@ -1,9 +1,9 @@
 import { RegurgitationEvent } from "@/app/events/regurgitation-event";
 
-import { getEvents } from "@/lib/database";
+import { getEmesisEvents } from "@/lib/events";
 
 export default async function EventsPage() {
-  const { data: regurgitationEvents } = await getEvents();
+  const { data: regurgitationEvents } = await getEmesisEvents();
 
   if (!regurgitationEvents) {
     return null;
