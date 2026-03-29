@@ -10,7 +10,13 @@ import { getEmesisEvents } from "@/lib/events";
 
 const reportSchema = z.object({
   diagnosis: z.string(),
-  suggestions: z.array(z.string()),
+  suggestions: z.array(
+    z.object({
+      description: z.string("The description for the suggested action"),
+      id: z.uuid(),
+      title: z.string("The suggested action"),
+    }),
+  ),
   summary: z.string(),
 });
 
@@ -34,7 +40,7 @@ async function getReportFromModel(dataJson: string): Promise<ReportOutput> {
     prompt: `Our cat pukes frequently. We are tracking events, including information about food as well as some notes.
 
     - Analyze the provided data.
-    - Return a short summary, not longer than a tweet.
+    - Return a short summary, not longer than a tweet. 
     - Return a diagnosis based on the provided data, not longer than two tweets.
     - Return 3 suggestions for things to try to stop emesis for the cat.
 
@@ -88,12 +94,15 @@ async function ReportContent() {
       </Heading>
       <ul className="grid gap-4">
         {report.suggestions.map((suggestion, index) => (
-          <Card asChild key={index}>
+          <Card asChild key={suggestion.id}>
             <li className="flex items-center gap-4">
               <div className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-primary font-semibold text-primary text-xl">
                 {index + 1}
               </div>
-              {suggestion}
+              <div className="grid gap-2">
+                <div className="font-medium text-xl">{suggestion.title}</div>
+                <div>{suggestion.description}</div>
+              </div>
             </li>
           </Card>
         ))}
