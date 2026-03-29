@@ -1,26 +1,26 @@
 import { cacheLife, cacheTag, revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  CreateEmesisFormSchema,
-  EmesisFormSchema,
-} from "@/app/events/emesis-form";
+  CreateFeedingFormSchema,
+  FeedingFormSchema,
+} from "@/app/events/feeding-form";
 import { supabase } from "@/lib/supabase";
 
 const CACHE_TAG = {
-  LATEST: "emesis-latest",
-  LIST: "emesis-events",
-  SINGLE: (slug: string) => `emesis-event-${slug}`,
+  LATEST: "feeding-latest",
+  LIST: "feeding-events",
+  SINGLE: (slug: string) => `feeding-event-${slug}`,
 };
 
-export const getEmesisEvents = async () => {
+export const getFeedingEvents = async () => {
   "use cache";
 
   cacheLife("hours");
   cacheTag(CACHE_TAG.LIST);
 
   const { data, error } = await supabase
-    .from("emesis_events")
-    .select("*, food ( *, type ( * ) )")
+    .from("feeding_events")
+    .select("*")
     .not("hidden", "is", true)
     .order("datetime", { ascending: false });
 
@@ -29,15 +29,15 @@ export const getEmesisEvents = async () => {
   return data;
 };
 
-export const getLatestEmesisEvent = async () => {
+export const getLatestFeedingEvent = async () => {
   "use cache";
 
   cacheLife("hours");
   cacheTag(CACHE_TAG.LIST, CACHE_TAG.LATEST);
 
   const { data, error } = await supabase
-    .from("emesis_events")
-    .select("*, food ( *, type ( * ) )")
+    .from("feeding_events")
+    .select("*")
     .not("hidden", "is", true)
     .order("datetime", { ascending: false })
     .limit(1)
@@ -48,15 +48,15 @@ export const getLatestEmesisEvent = async () => {
   return data;
 };
 
-export const getEmesisEvent = async (slug: string) => {
+export const getFeedingEvent = async (slug: string) => {
   "use cache";
 
   cacheLife("hours");
   cacheTag(CACHE_TAG.SINGLE(slug));
 
   const { data, error } = await supabase
-    .from("emesis_events")
-    .select("*, food ( *, type ( * ) )")
+    .from("feeding_events")
+    .select("*")
     .eq("slug", slug)
     .single();
 
@@ -65,28 +65,30 @@ export const getEmesisEvent = async (slug: string) => {
   return data;
 };
 
-export const createEmesisEvent = async (formData: FormData) => {
+export const createFeedingEvent = async (formData: FormData) => {
   "use server";
 
   const rawData = Object.fromEntries(formData.entries());
-  const validated = CreateEmesisFormSchema.safeParse(rawData);
+  const validated = CreateFeedingFormSchema.safeParse(rawData);
 
   if (!validated.success) {
     throw new Error(JSON.stringify(validated.error.flatten().fieldErrors));
   }
 
-  const { error } = await supabase.from("emesis_events").insert(validated.data);
+  const { error } = await supabase
+    .from("feeding_events")
+    .insert(validated.data);
 
   if (error) throw new Error(error.message);
 
   revalidateTag(CACHE_TAG.LIST, "max");
 };
 
-export const updateEmesisEvent = async (formData: FormData) => {
+export const updateFeedingEvent = async (formData: FormData) => {
   "use server";
 
   const rawData = Object.fromEntries(formData.entries());
-  const validated = EmesisFormSchema.safeParse(rawData);
+  const validated = FeedingFormSchema.safeParse(rawData);
 
   if (!validated.success) {
     throw new Error(JSON.stringify(validated.error.flatten().fieldErrors));
@@ -95,7 +97,7 @@ export const updateEmesisEvent = async (formData: FormData) => {
   const { slug, ...updateData } = validated.data;
 
   const { error } = await supabase
-    .from("emesis_events")
+    .from("feeding_events")
     .update(updateData)
     .eq("slug", slug);
 
@@ -107,7 +109,7 @@ export const updateEmesisEvent = async (formData: FormData) => {
   revalidatePath(`/events/${slug}`);
 };
 
-export const deleteEmesisEvent = async (formData: FormData) => {
+export const deleteFeedingEvent = async (formData: FormData) => {
   "use server";
 
   const slug = formData.get("slug");
@@ -115,7 +117,7 @@ export const deleteEmesisEvent = async (formData: FormData) => {
   if (typeof slug !== "string") throw new Error("Invalid slug");
 
   const { error } = await supabase
-    .from("emesis_events")
+    .from("feeding_events")
     .update({ hidden: true })
     .eq("slug", slug);
 
@@ -124,5 +126,5 @@ export const deleteEmesisEvent = async (formData: FormData) => {
   revalidateTag(CACHE_TAG.LIST, "max");
   revalidateTag(CACHE_TAG.SINGLE(slug), "max");
 
-  redirect("/events");
+  redirect("/");
 };

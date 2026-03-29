@@ -1,7 +1,7 @@
 import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 import { UpdateEmesisForm } from "@/app/events/emesis-form";
 import { IconButton } from "@/components/icon-button";
 import { getEmesisEvent } from "@/lib/emesis-events";
@@ -20,7 +20,7 @@ const Content = async ({ slug }: { slug: string }) => {
           <ChevronLeftIcon />
         </Link>
       </IconButton>
-      <UpdateEmesisForm />
+      <UpdateEmesisForm {...event} />
     </article>
   );
 };

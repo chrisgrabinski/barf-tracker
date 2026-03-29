@@ -16,7 +16,7 @@ export type Food = {
 export interface BarfEntry {
   id: number;
   created_at: string;
-  updated_at: string | null;
+  datetime: string | null;
   hidden: boolean | null;
   food:
     | (Omit<Food, "type"> & {

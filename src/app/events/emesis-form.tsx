@@ -25,14 +25,14 @@ const EmesisFormSchema = z.object({
 const CreateEmesisFormSchema = EmesisFormSchema.omit({ slug: true });
 
 type EmesisFormFieldsProps = {
-  date?: string;
-  food?: string;
-  notes?: string;
-  slug?: string;
+  datetime?: string | null;
+  food?: string | null;
+  notes?: string | null;
+  slug?: string | null;
 };
 
 const EmesisFormFields = async ({
-  date,
+  datetime,
   food,
   notes,
   slug,
@@ -42,13 +42,13 @@ const EmesisFormFields = async ({
   return (
     <>
       {slug && <input name="slug" type="hidden" value={slug} />}
-      <FieldRoot name="date">
+      <FieldRoot name="datetime">
         <FieldLabel>Date</FieldLabel>
-        <FieldInput defaultValue={date} />
+        <FieldInput defaultValue={datetime ?? undefined} />
       </FieldRoot>
       <FieldRoot name="food">
         <FieldLabel>Food</FieldLabel>
-        <FieldInput asChild defaultValue={food}>
+        <FieldInput asChild defaultValue={food ?? undefined}>
           <select className="appearance-none">
             {foods?.map((food) => (
               <option key={food.slug} value={food.slug}>
@@ -61,7 +61,7 @@ const EmesisFormFields = async ({
       <FieldRoot name="notes">
         <FieldLabel>Notes</FieldLabel>
         <FieldInput asChild>
-          <Textarea defaultValue={notes} />
+          <Textarea defaultValue={notes ?? undefined} />
         </FieldInput>
         <FieldDescription>
           Describe the appearance and volume of the emesis (e.g., undigested

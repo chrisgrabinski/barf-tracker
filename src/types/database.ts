@@ -100,30 +100,30 @@ export type Database = {
       emesis_events: {
         Row: {
           created_at: string
+          datetime: string
           food: string | null
           hidden: boolean | null
           id: number
           notes: string | null
           slug: string
-          updated_at: string
         }
         Insert: {
           created_at?: string
+          datetime?: string
           food?: string | null
           hidden?: boolean | null
           id?: number
           notes?: string | null
           slug?: string
-          updated_at?: string
         }
         Update: {
           created_at?: string
+          datetime?: string
           food?: string | null
           hidden?: boolean | null
           id?: number
           notes?: string | null
           slug?: string
-          updated_at?: string
         }
         Relationships: [
           {
@@ -158,22 +158,31 @@ export type Database = {
       }
       feeding_events: {
         Row: {
+          amount: number | null
           created_at: string
           datetime: string
           food: string
+          hidden: boolean | null
           id: number
+          slug: string
         }
         Insert: {
+          amount?: number | null
           created_at?: string
           datetime?: string
           food: string
+          hidden?: boolean | null
           id?: number
+          slug?: string
         }
         Update: {
+          amount?: number | null
           created_at?: string
           datetime?: string
           food?: string
+          hidden?: boolean | null
           id?: number
+          slug?: string
         }
         Relationships: [
           {
@@ -305,19 +314,25 @@ export type Database = {
         Row: {
           created_at: string
           datetime: string
+          hidden: boolean | null
           id: number
+          slug: string
           value: number
         }
         Insert: {
           created_at?: string
           datetime?: string
+          hidden?: boolean | null
           id?: number
+          slug?: string
           value: number
         }
         Update: {
           created_at?: string
           datetime?: string
+          hidden?: boolean | null
           id?: number
+          slug?: string
           value?: number
         }
         Relationships: []

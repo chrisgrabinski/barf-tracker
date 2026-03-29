@@ -3,6 +3,8 @@ import { CreateEmesisForm } from "@/app/events/emesis-form";
 import { Card } from "@/components/card";
 import { getLatestEmesisEvent } from "@/lib/emesis-events";
 
+const now = new Date();
+
 const QuickLogForm = async () => {
   const { food: defaultFood } = await getLatestEmesisEvent();
 
@@ -14,7 +16,10 @@ const QuickLogForm = async () => {
         </div>
         Quick log
       </div>
-      <CreateEmesisForm food={defaultFood ?? undefined} />
+      <CreateEmesisForm
+        datetime={now.toISOString()}
+        food={defaultFood ?? undefined}
+      />
     </Card>
   );
 };
