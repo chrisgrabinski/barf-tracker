@@ -1,5 +1,5 @@
 import { differenceInMonths } from "date-fns";
-import { CakeIcon, WeightIcon } from "lucide-react";
+import { CakeIcon, MarsIcon, VenusIcon, WeightIcon } from "lucide-react";
 
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -38,9 +38,17 @@ export default async function ProfilePage() {
           )}
         </div>
         <div className="text-center">
-          <div className="font-medium text-3xl">
+          <div className="flex items-center justify-center gap-1 font-medium text-3xl">
             {pet.name}{" "}
-            {pet.sex && <span>{pet.sex === "female" ? "♀️" : "♂️"}</span>}
+            {pet.sex && (
+              <span>
+                {pet.sex === "female" ? (
+                  <VenusIcon className="text-pink-500" />
+                ) : (
+                  <MarsIcon className="text-sky-500" />
+                )}
+              </span>
+            )}
           </div>
           <p className="flex gap-2 text-muted-foreground">
             <span>{pet.breed}</span>·<span>{pet.environment}</span>
